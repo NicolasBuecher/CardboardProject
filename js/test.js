@@ -72,7 +72,7 @@ function init()
         orbitControls.connect();
         orbitControls.update();
 
-        canvasElement.addEventListener('click', fullscreen, false);
+        //canvasElement.addEventListener('click', fullscreen, false);
 
         window.removeEventListener('deviceorientation', setOrientationControls);
 
