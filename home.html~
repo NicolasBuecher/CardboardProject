@@ -6,7 +6,7 @@
 
         <!-- Meta data -->
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <!--<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">-->
 
         <title>Cardboard Project</title>
 
@@ -20,21 +20,12 @@
         <script src="js/StereoEffect.js" ></script>
         <script src="js/DeviceOrientationControls.js" ></script>
         <script src="js/OrbitControls.js" ></script>
-        <script src="js/screenfull.js" ></script>
 
     </head>
     <body>
 
-        <!-- Demande d'autorisation de passage en mode plein écran -->
-
-        <div id="message-container">
-            <h1 id="message">Veuillez passer en mode plein écran pour continuer</h1>
-            <button id="fullscreen-button">OK</button>
-        </div>
-
         <!-- Code -->
-
-        <script src="js/test.js" ></script>
+        <script src="js/main.js" ></script>
 
     </body>
 </html>
