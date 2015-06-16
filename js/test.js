@@ -52,8 +52,8 @@ function init()
 
     /* Initialisation de la caméra */
 
-    camera = new THREE.PerspectiveCamera(45, canvasContainer.offsetWidth / canvasContainer.offsetHeight, 0.1, 20000);                   // Caméra en vue perspective, FOV de 45 degrés, ratio w/h, intervalle de profondeur [0.1, 20000]
-    camera.position.set(0, 100, 150);                                          // Position de la caméra +0X +100Y +150Z
+    camera = new THREE.PerspectiveCamera(45, canvasContainer.offsetWidth / canvasContainer.offsetHeight, 0.1, 10000);                   // Caméra en vue perspective, FOV de 45 degrés, ratio w/h, intervalle de profondeur [0.1, 20000]
+    camera.position.set(-100, 200, 250);                                          // Position de la caméra +0X +100Y +150Z
     scene.add(camera);                                                         // Ajout de la caméra à la scène
 
     /* Initialisation des contrôles */
@@ -124,6 +124,56 @@ function init()
     cubeMesh.rotation.y = Math.PI * 45 / 180;                               // Rotation de PI/4 autour de l'axe Y
     cubeMesh.position.set(0, 25, 0);                                        // Position affectée à +0X +25Y +0Z
     scene.add(cubeMesh);                                                    // Ajout du mesh à la scène
+
+    /* Initialisation du matériau du cube 2 */
+    cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff00 });      // Matériau de Lambert
+
+    /* Initialisation de la géométrie du cube 2 */
+    cubeGeometry = new THREE.BoxGeometry(100, 100, 100);                   // Cube de 100x100x100
+
+    /* Initialisation du mesh du cube 2 */
+
+    cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);              // Création du mesh
+    cubeMesh.rotation.y = Math.PI * 45 / 180;                               // Rotation de PI/4 autour de l'axe Y
+    cubeMesh.position.set(100, 50, 200);                                        // Position affectée à +100X +50Y +200Z
+    scene.add(cubeMesh);                                                    // Ajout du mesh à la scène
+
+    /* Initialisation du matériau du cube 3 */
+    cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff00ff });      // Matériau de Lambert
+
+    /* Initialisation de la géométrie du cube 3 */
+    cubeGeometry = new THREE.BoxGeometry(200, 200, 200);                   // Cube de 200x200x200
+
+    /* Initialisation du mesh du cube 3 */
+
+    cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);              // Création du mesh
+    cubeMesh.rotation.y = Math.PI * 45 / 180;                               // Rotation de PI/4 autour de l'axe Y
+    cubeMesh.position.set(400, 100, 600);                                        // Position affectée à +400X +100Y +600Z
+    scene.add(cubeMesh);                                                    // Ajout du mesh à la scène
+
+    /* Initialisation du matériau du cube 4 */
+    cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });      // Matériau de Lambert
+
+    /* Initialisation de la géométrie du cube 4 */
+    cubeGeometry = new THREE.BoxGeometry(50, 50, 50);                   // Cube de 50x50x50
+
+    /* Initialisation du mesh du cube 4 */
+
+    cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);              // Création du mesh
+    cubeMesh.rotation.y = Math.PI * 45 / 180;                               // Rotation de PI/4 autour de l'axe Y
+    cubeMesh.position.set(-250, 25, -300);                                        // Position affectée à -250X +25Y -300Z
+    scene.add(cubeMesh);                                                    // Ajout du mesh à la scène
+
+    /* Initialisation du matériau de la skybox */
+    var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
+
+    /* Initialisation de la géométrie de la skybox */
+    var skyboxGeometry = new THREE.CubeGeometry(5000, 5000, 5000);
+
+    /* Initialisation du mesh de la skybox */
+
+    var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+    scene.add(skybox);
 
     window.addEventListener('resize', resize, false);               // Ajout d'un événement "redimensionner"
     setTimeout(resize, 1);                                          // Initialisation de la taille de la fenêtre de rendu
