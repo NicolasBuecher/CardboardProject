@@ -96,7 +96,6 @@ function init(device)
             break;
         case CARDBOARD:         // Cas de la Google Cardboard
             effect = new THREE.StereoEffect(renderer);                              // Effet stéréo
-            effect.setSize(window.innerWidth, window.innerHeight);
             controls = new THREE.DeviceOrientationControls(camera, true);           // Contrôle de l'orientation du mobile
             break;
         default:
@@ -226,7 +225,11 @@ function animateDesktop()
 
     requestAnimationFrame( animateDesktop );
 
+    camera.aspect = window.innerWidth / window.innerHeight;
+
     camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
     controls.update();
 
@@ -244,10 +247,44 @@ function animateCardboard()
 
     requestAnimationFrame( animateCardboard );
 
+    camera.aspect = window.innerWidth / window.innerHeight;
+
     camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    effect.setSize(window.innerWidth, window.innerHeight);
 
     controls.update();
 
     effect.render(scene, camera);
+
+}
+
+function resizeDesktop()
+{
+
+    width = canvasContainer.offsetWidth;
+    height = canvasContainer.offsetHeight;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height);
+    stereoEffect.setSize(width, height);
+
+}
+
+function resizeOculus()
+{
+
+
+
+}
+
+function resizeCardboard()
+{
+
+
 
 }
