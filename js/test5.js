@@ -7,15 +7,6 @@
 var DESKTOP = 0;
 var OCULUS = 1;
 var CARDBOARD = 2;
-var UNKNOWN = 3;
-
-/* Déclaration des variables globales */
-
-var renderer, scene, camera;
-var effect, controls;
-var controlsEnabled = false;
-var currentDevice = UNKNOWN;
-var requestId;
 
 /* Choix du type d'affichage */
 
@@ -32,20 +23,7 @@ cardboard.addEventListener('click', initCardboard, false);
 function initDesktop()
 {
     fullscreen();
-
-    if (currentDevice == UNKNOWN)
-    {
-        currentDevice = DESKTOP;
-        init();
-    }
-    else if (currentDevice !== DESKTOP)
-    {
-        cancelAnimationFrame(requestId);
-        renderer.clear();
-        currentDevice = DESKTOP;
-        init();      // Enlever le paramètre device partout
-    }
-
+    init(DESKTOP);
 }
 
 /* Fonction d'initialisation pour un rendu VR */
@@ -53,20 +31,7 @@ function initDesktop()
 function initOculus()
 {
     fullscreen();
-
-    if (currentDevice == UNKNOWN)
-    {
-        currentDevice = OCULUS;
-        init();
-    }
-    else if (currentDevice !== OCULUS)
-    {
-        cancelAnimationFrame(requestId);
-        renderer.clear();
-        currentDevice = OCULUS;
-        init();      // Enlever le paramètre device partout
-    }
-
+    init(OCULUS);
 }
 
 /* Fonction d'utilisation pour un rendu stereo */
@@ -74,20 +39,7 @@ function initOculus()
 function initCardboard()
 {
     fullscreen();
-
-    if (currentDevice == UNKNOWN)
-    {
-        currentDevice = CARDBOARD;
-        init();
-    }
-    else if (currentDevice !== CARDBOARD)
-    {
-        cancelAnimationFrame(requestId);
-        renderer.clear();
-        currentDevice = CARDBOARD;
-        init();      // Enlever le paramètre device partout
-    }
-
+    init(CARDBOARD);
 }
 
 /* Fonction permettant de passer en mode plein écran */
@@ -96,6 +48,7 @@ function fullscreen()
 {
     if (screenfull.enabled)             // Si le navigateur autorise le mode plein écran
     {
+        document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
         screenfull.request(document.body);                                              // Activation du mode plein écran
     }
     else                                // Si le navigateur bloque le mode plein écran
@@ -104,24 +57,14 @@ function fullscreen()
     }
 }
 
-document.addEventListener(screenfull.raw.fullscreenchange, function ()
-{
-    console.log('Am I fullscreen? ' + (screenfull.isFullscreen ? 'Yes' : 'No'));
-    if (!screenfull.isFullscreen)
-    {
-        document.getElementById('blocker').style.display = 'initial';
-        controlsEnabled = false;
-    }
-    else
-    {
-        document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
-        controlsEnabled = true;
-    }
-});
+/* Déclaration des variables globales */
+
+var renderer, scene, camera;
+var effect, controls;
 
 /* Fonction d'initialisation générale */
 
-function init()
+function init(device)
 {
 
     /* Initialisation du renderer */
@@ -133,7 +76,7 @@ function init()
     /* Initialisation de la caméra */
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);   // Caméra en vue perspective, FOV de 45 degrés, ratio w/h, intervalle de profondeur [0.1, 10000]
-    camera.position.set(-300,100,-300);                                               // Position de la caméra affectée à -300X +100Y -300Z
+    camera.position.set(0,150,0);                                               // Position de la caméra affectée à +0X +150Y +0Z
     scene.add(camera);                                                          // Ajout de la caméra à la scène
 
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -143,7 +86,7 @@ function init()
 
     /* Initialisation de l'effet et des contrôles selon le type de device */
 
-    switch(currentDevice) {
+    switch(device) {
         case DESKTOP:           // Cas de l'ordinateur
             controls = new THREE.OrbitControls(camera, renderer.domElement);        // Contrôles à la souris
             break;
@@ -169,12 +112,9 @@ function init()
 
     loadObjects();
 
-    /* Prise en charge du redimensionnement */
-    window.addEventListener( 'resize', onWindowResize(), false );
-
     /* Choix de l'animation selon le type de device */
 
-    switch(currentDevice)
+    switch(device)
     {
         case DESKTOP:
             animateDesktop();
@@ -195,8 +135,8 @@ function loadObjects()
 {
 
     /*******************\
-    * Chargement du sol *
-    \*******************/
+     * Chargement du sol *
+     \*******************/
 
     /* Initialisation de la texture principale */
 
@@ -226,8 +166,8 @@ function loadObjects()
     scene.add(groundMesh);                                                  // Ajout du mesh à la scène
 
     /*************************\
-    * Chargement de la skybox *
-    \*************************/
+     * Chargement de la skybox *
+     \*************************/
 
     /* Initialisation du matériau de la skybox */
     var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
@@ -241,8 +181,8 @@ function loadObjects()
     scene.add(skybox);
 
     /**********************\
-    * Chargement des cubes *
-    \**********************/
+     * Chargement des cubes *
+     \**********************/
 
     /* Initialisation du matériau des cubes */
     var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });      // Matériau de Lambert
@@ -283,22 +223,18 @@ function loadObjects()
 function animateDesktop()
 {
 
-    id = requestAnimationFrame( animateDesktop );
+    requestAnimationFrame( animateDesktop );
 
-    //camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
 
-    //camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix();
 
-    //renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-    if (controlsEnabled)
-    {
+    controls.update();
 
-        controls.update();
+    renderer.render(scene, camera);
 
-        renderer.render(scene, camera);
-
-    }
 }
 
 function animateOculus()
@@ -311,44 +247,17 @@ function animateCardboard()
 
     requestAnimationFrame( animateCardboard );
 
-    //camera.aspect = window.innerWidth / window.innerHeight;
-
-    //camera.updateProjectionMatrix();
-
-    //renderer.setSize(window.innerWidth, window.innerHeight);
-
-    //effect.setSize(window.innerWidth, window.innerHeight);
-
-    if (controlsEnabled)
-    {
-
-        controls.update();
-
-        effect.render(scene, camera);
-
-    }
-}
-
-function onWindowResize()
-{
-
     camera.aspect = window.innerWidth / window.innerHeight;
+
     camera.updateProjectionMatrix();
 
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-    switch(currentDevice)
-    {
-        case DESKTOP:
-            break;
-        case OCULUS:
-            break;
-        case CARDBOARD:
-            effect.setSize( window.innerWidth, window.innerHeight );
-            break;
-        default:
-            break;
-    }
+    effect.setSize(window.innerWidth, window.innerHeight);
+
+    controls.update();
+
+    effect.render(scene, camera);
 
 }
 
