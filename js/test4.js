@@ -80,7 +80,7 @@ function init(device)
     camera.position.set(0,150,0);                                               // Position de la caméra affectée à +0X +150Y +0Z
     scene.add(camera);                                                          // Ajout de la caméra à la scène
 
-    renderer.setPixelRatio( window.devicePixelRatio );
+    //renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(screen.width, screen.height);
 
     document.body.appendChild( renderer.domElement );
