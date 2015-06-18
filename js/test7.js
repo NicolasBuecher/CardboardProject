@@ -130,7 +130,7 @@ function initVRControls()
 {
 
     // Set up VR camera controls
-    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls = new THREE.DeviceOrientationControls(camera);
 }
 
 function run()
