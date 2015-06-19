@@ -1,13 +1,83 @@
+/**
+ * Created by buecher on 16/06/15.
+ */
+
+/* Définition des constantes */
+
+var UNKNOWN = 0;
+var DESKTOP = 1;
+var OCULUS = 2;
+var CARDBOARD = 3;
+
 /* Déclaration des variables globales */
 
-var camera, scene, renderer;
-var controls, effect;
-var light;
+var renderer, scene, camera;
+var effect, controls;
 
-init();
+/* Choix du type d'affichage */
+
+var desktop = document.getElementById('desktop');
+var oculus = document.getElementById('oculus');
+var cardboard = document.getElementById('cardboard');
+
+desktop.addEventListener('click', initDesktop, false);
+oculus.addEventListener('click', initOculus, false);
+cardboard.addEventListener('click', initCardboard, false);
+
+function initDesktop() {
+    init();
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    fullscreen();
+    animateDesktop();
+}
+
+function initOculus() {
+    init();
+}
+
+function initCardboard() {
+    init();
+    effect = new THREE.StereoEffect(renderer);                              // Effet stéréo
+    controls = new THREE.DeviceOrientationControls(camera, true);           // Contrôle de l'orientation du mobile
+    fullscreen();
+    animateCardboard();
+}
+
+
+
+/* Fonction permettant de passer en mode plein écran */
+
+function fullscreen() {
+
+    var docElm = document.documentElement;
+
+    document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
+
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    }
+    else if (docElm.mozRequestFullScreen) {
+        docElm.mozRequestFullScreen();
+    }
+    else if (docElm.webkitRequestFullScreen) {
+        docElm.webkitRequestFullScreen();
+    }
+    else if (docElm.msRequestFullScreen) {
+        docElm.msRequestFullScreen();
+    }
+    else {
+        alert('Quelque chose empêche votre navigateur de passer en mode plein écran.'); // Message d'erreur
+        document.getElementById('blocker').style.display = 'initial';                      // Réaffichage du texte
+    }
+}
+
+
+
+/* Fonction d'initialisation générale */
 
 function init()
 {
+
     /* Initialisation du renderer */
     renderer = new THREE.WebGLRenderer({ alpha: 1, antialias: true, clearColor: 0xffffff });    // WebGL Renderer, objets opaques, anticrénelage activé, couleur par défaut blanc
 
@@ -20,64 +90,20 @@ function init()
     camera.position.set(0,150,0);                                               // Position de la caméra affectée à +0X +150Y +0Z
     scene.add(camera);                                                          // Ajout de la caméra à la scène
 
+    renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     document.body.appendChild( renderer.domElement );
 
-    effect = new THREE.StereoEffect(renderer);                              // Effet stéréo
-    controls = new THREE.DeviceOrientationControls(camera, true);           // Contrôle de l'orientation du mobile
-
-    effect.setSize(window.innerWidth, window.innerHeight);
-
     /* Initialisation de la lumière */
 
-    light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+    var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
     light.position.set( 0.5, 1, 0.75 );
     scene.add( light );
 
     /* Chargement des décors */
+
     loadObjects();
-
-    window.addEventListener('resize', resize, false);
-
-    window.addEventListener('click', fullscreen, false);
-    animate();
-
-
-}
-
-function fullscreen()
-{
-
-    if ( document.body.mozRequestFullScreen ) {
-        document.body.mozRequestFullScreen();
-    } else {
-        document.body.webkitRequestFullscreen();
-    }
-
-}
-
-function resize()
-{
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    effect.setSize(window.innerWidth, window.innerHeight);
-
-}
-
-function animate()
-{
-
-    requestAnimationFrame( animate );
-
-    controls.update();
-
-    effect.render(scene, camera);
 
 }
 
@@ -170,4 +196,71 @@ function loadObjects()
 
 }
 
+function animateDesktop()
+{
 
+    requestAnimationFrame( animateDesktop );
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    controls.update();
+
+    renderer.render(scene, camera);
+
+}
+
+function animateOculus()
+{
+
+}
+
+function animateCardboard()
+{
+
+    requestAnimationFrame( animateCardboard );
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    effect.setSize(window.innerWidth, window.innerHeight);
+
+    controls.update();
+
+    effect.render(scene, camera);
+
+}
+
+function resizeDesktop()
+{
+
+    width = canvasContainer.offsetWidth;
+    height = canvasContainer.offsetHeight;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height);
+    stereoEffect.setSize(width, height);
+
+}
+
+function resizeOculus()
+{
+
+
+
+}
+
+function resizeCardboard()
+{
+
+
+
+}
