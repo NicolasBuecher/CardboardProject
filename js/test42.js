@@ -38,10 +38,44 @@ function initOculus()
 
 function initCardboard()
 {
-    document.getElementById('blocker').style.display = 'none';      // Disparition du menu
 
-    init();                                                         // Initialisation de la scène
-    animate();                                                      // Boucle de rendu
+    /* Disparition du menu */
+
+    document.getElementById('blocker').style.display = 'none';
+
+    /* Initialisation de la scène */
+
+    init();
+
+    /* Initialisation de l'effet stéréo */
+
+    effect = new THREE.StereoEffect(renderer);
+
+    /* Initialisation du contrôle par orientation du mobile */
+
+    function setOrientationControls(e)
+    {
+
+        if (!e.alpha)
+        {
+            return;
+        }
+
+        controls = new THREE.DeviceOrientationControls(camera, true);                   // Contrôles par orientation du mobile
+        controls.connect();                                                             // Initialisation
+        controls.update();                                                              // Mise à jour
+
+        element.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
+
+        window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
+
+    }
+
+    window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
+
+    /* Lancement de la boucle de rendu */
+    animate();
+
 }
 
 /* Fonction d'initialisation générale */
@@ -72,6 +106,19 @@ function init()
     camera.position.set(0,150,0);                           // Position de la caméra affectée à +0X +150Y +0Z
     scene.add(camera);                                      // Ajout de la caméra à la scène
 
+    /* Initialisation des contrôles de base */
+
+    controls = new THREE.OrbitControls(camera, element);    // Contrôles à la souris ou au toucher
+
+    controls.target.set(
+        camera.position.x,
+        camera.position.y,
+        camera.position.z - 0.1
+    );
+
+    controls.noZoom = true;                                 // Restriction sur les contrôles : pas de zoom
+    controls.noPan = true;                                  // Restriction sur les contrôles : pas de translation de la caméra
+
     /* Initialisation de la lumière */
 
     var light = new THREE.PointLight( 0xffffff );
@@ -97,34 +144,6 @@ function init()
     /* Initialisation de la taille de la fenêtre de rendu */
 
     setTimeout(resize, 1);
-
-
-    effect = new THREE.StereoEffect(renderer);
-
-    controls = new THREE.OrbitControls(camera, element);
-
-    controls.target.set(
-        camera.position.x,
-        camera.position.y,
-        camera.position.z - 0.1
-    );
-    controls.noZoom = true;
-    controls.noPan = true;
-
-    function setOrientationControls(e) {
-        if (!e.alpha) {
-            return;
-        }
-
-        controls = new THREE.DeviceOrientationControls(camera, true);
-        controls.connect();
-        controls.update();
-
-        element.addEventListener('click', fullscreen, false);
-
-        window.removeEventListener('deviceorientation', setOrientationControls, true);
-    }
-    window.addEventListener('deviceorientation', setOrientationControls, true);
 
 }
 
@@ -174,3 +193,15 @@ function fullscreen()
         alert("Impossible de passer en mode plein écran.");
     }
 }
+
+
+/*controls = new THREE.OrbitControls(camera, element);
+
+ controls.target.set(
+ camera.position.x,
+ camera.position.y,
+ camera.position.z - 0.1
+ );
+ controls.noZoom = true;
+ controls.noPan = true;
+ */
