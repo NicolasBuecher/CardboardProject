@@ -40,11 +40,12 @@ function initCardboard()
 {
     document.getElementById('blocker').style.display = 'none';      // Disparition du menu
 
-    init();                                                         // Initialisation
+    init();                                                         // Initialisation de la scène
     animate();                                                      // Boucle de rendu
 }
 
-function init() {
+function init()
+{
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setClearColor( 0x000000 );
@@ -231,7 +232,9 @@ function animate(t) {
     stats.update();
 }
 
-function fullscreen() {
+function fullscreen()
+{
+
     if (container.requestFullscreen) {
         container.requestFullscreen();
     } else if (container.msRequestFullscreen) {
