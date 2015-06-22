@@ -46,7 +46,7 @@ function initCardboard()
     init();
 
     effect = new THREE.StereoEffect(renderer);
-    controls = new THREE.OrbitControls(camera, element);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
     window.addEventListener('deviceorientation', setOrientationControls, true);
@@ -61,7 +61,7 @@ function initCardboard()
         controls.connect();
         controls.update();
 
-        element.addEventListener('click', fullscreen, false);
+        renderer.domElement.addEventListener('click', fullscreen, false);
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);
     }
@@ -86,9 +86,7 @@ function init()
     scene = new THREE.Scene();
 
     /* Initialisation de la zone de rendu */
-    element = renderer.domElement;
-    container = document.body;
-    container.appendChild(element);
+    document.body.appendChild( renderer.domElement );       // Zone de rendu contenue dans le body
 
     /* Initialisation de la caméra */
 
@@ -102,7 +100,7 @@ function init()
     stats.domElement.style.position = 'absolute';           // Position absolue
     stats.domElement.style.top = '0px';                     // Position en haut de la fenêtre
     stats.domElement.style.zIndex = 100;                    // Position en avant des autres éléments
-    container.appendChild( stats.domElement )           // Zone de rendu contenue dans le body
+    document.body.appendChild( stats.domElement )           // Zone de rendu contenue dans le body
 
     /* Initialisation de la lumière */
 
@@ -126,8 +124,8 @@ function init()
 function resize()
 {
 
-    var width = container.offsetWidth;
-    var height = container.offsetHeight;
+    var width = document.body.offsetWidth;
+    var height = document.body.offsetHeight;
 
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -172,24 +170,24 @@ function animate(t)
 function fullscreen()
 {
 
-    if (container.requestFullscreen)
+    if (document.body.requestFullscreen)
     {
-        container.requestFullscreen();
+        document.body.requestFullscreen();
     }
 
-    else if (container.msRequestFullscreen)
+    else if (document.body.msRequestFullscreen)
     {
-        container.msRequestFullscreen();
+        document.body.msRequestFullscreen();
     }
 
-    else if (container.mozRequestFullScreen)
+    else if (document.body.mozRequestFullScreen)
     {
-        container.mozRequestFullScreen();
+        document.body.mozRequestFullScreen();
     }
 
-    else if (container.webkitRequestFullscreen)
+    else if (document.body.webkitRequestFullscreen)
     {
-        container.webkitRequestFullscreen();
+        document.body.webkitRequestFullscreen();
     }
 
 }

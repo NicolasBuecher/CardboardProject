@@ -6,8 +6,17 @@ var element, container;
 
 var clock = new THREE.Clock();
 
-init();
-animate();
+var cardboard = document.getElementById('cardboard');
+
+cardboard.addEventListener('click', initCardboard, false);
+
+function initCardboard()
+{
+    document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
+
+    init();
+    animate();
+}
 
 function init() {
     renderer = new THREE.WebGLRenderer();
