@@ -289,7 +289,18 @@ function animateCardboard2()
     requestAnimationFrame(animateCardboard2);
 
     controls.update();
-    effect.render(scene, camera);
+    switch ( currentDevice )
+    {
+        case OCULUS:
+        case CARDBOARD:
+            effect.render(scene, camera);
+            break;
+        case DESKTOP:
+            renderer.render(scene, camera);
+            break;
+        default:
+            break;
+    }
     stats.update();
 }
 
