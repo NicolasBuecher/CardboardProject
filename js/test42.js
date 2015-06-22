@@ -97,7 +97,7 @@ function initCardboard()
     window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 
     /* Lancement de la boucle de rendu */
-    animate();
+    animateCardboard();
 
 }
 
@@ -261,6 +261,16 @@ function animate(t)
 
     stats.update();
 
+}
+
+function animateCardboard()
+{
+
+    requestAnimationFrame(animateCardboard);
+
+    update(clock.getDelta());
+    effect.render(scene, camera);
+    stats.update();
 }
 
 /* Fonction permettant le passage en mode plein écran */
