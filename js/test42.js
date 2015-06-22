@@ -24,14 +24,14 @@ cardboard.addEventListener('click', initCardboard, false);
 
 function initDesktop()
 {
-
+    alert("Fonctionnalité pas encore disponible !");
 }
 
 /* Fonction d'initialisation pour visualisation avec un kit Oculus */
 
 function initOculus()
 {
-
+    alert("Fonctionnalité pas encore disponible !");
 }
 
 /* Fonction d'initialisation avec un kit Google Cardboard */
@@ -44,18 +44,30 @@ function initCardboard()
     animate();                                                      // Boucle de rendu
 }
 
+/* Fonction d'initialisation générale */
+
 function init()
 {
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setClearColor( 0x000000 );
-    element = renderer.domElement;
-    container = document.getElementById('example');
-    container.appendChild(element);
+
+    /* Initialisation du renderer */
+
+    renderer = new THREE.WebGLRenderer();                   // Renderer de type WebGLRenderer
+    renderer.alpha = 1;                                     // Opaque
+    renderer.antialias = true;                              // Anticrénelage activé
+    renderer.setPixelRatio( window.devicePixelRatio );      // Initialisation du ratio
+    renderer.setClearColor( 0xffffff );                     // Couleur par défaut blanche
+
+    /* Initialisation de la zone de rendu */
+
+    element = renderer.domElement;                          // Récupération du canvas
+    container = document.getElementById('example');         // Récupération du bloc destinée au rendu
+    container.appendChild(element);                         // Création de la zone de rendu
+
+    /* Initialisation de la scène */
+    scene = new THREE.Scene();
+
 
     effect = new THREE.StereoEffect(renderer);
-
-    scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
     camera.position.set(0, 100, 100);
@@ -239,19 +251,13 @@ function fullscreen()
     {
         screenfull.request(container);
     }
-
-/*
-    if (container.requestFullscreen) {
-        container.requestFullscreen();
-    } else if (container.msRequestFullscreen) {
-        container.msRequestFullscreen();
-    } else if (container.mozRequestFullScreen) {
-        container.mozRequestFullScreen();
-    } else if (container.webkitRequestFullscreen) {
-        container.webkitRequestFullscreen();
+    else
+    {
+        alert("Impossible de passer en mode plein écran.");
     }
-    */
 }
+
+
 
 function loadScene()
 {
