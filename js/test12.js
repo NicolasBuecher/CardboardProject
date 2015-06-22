@@ -41,7 +41,7 @@ function initOculus()
 function initCardboard()
 {
     document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
-    
+
     init();
 
     effect = new THREE.StereoEffect(renderer);
@@ -60,7 +60,7 @@ function initCardboard()
         controls.connect();
         controls.update();
 
-        element.addEventListener('click', fullscreen, false);
+        renderer.domElement.addEventListener('click', fullscreen, false);
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);
     }
