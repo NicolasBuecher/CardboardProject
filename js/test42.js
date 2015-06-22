@@ -6,7 +6,7 @@ var element, container;
 
 var clock = new THREE.Clock();
 
-/*var cardboard = document.getElementById('cardboard');
+var cardboard = document.getElementById('cardboard');
 
 cardboard.addEventListener('click', initCardboard, false);
 
@@ -16,10 +16,7 @@ function initCardboard()
 
     init();
     animate();
-}*/
-
-init();
-animate();
+}
 
 function init() {
     renderer = new THREE.WebGLRenderer();
