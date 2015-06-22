@@ -1,4 +1,8 @@
+/* Test de la compatibilité WebGL du navigateur */
+
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+/* Déclaration des variables globales */
 
 var camera, scene, renderer;
 var effect, controls;
@@ -6,16 +10,38 @@ var element, container;
 
 var clock = new THREE.Clock();
 
+/* Choix du type d'affichage */
+
+var desktop = document.getElementById('desktop');
+var oculus = document.getElementById('oculus');
 var cardboard = document.getElementById('cardboard');
 
+desktop.addEventListener('click', initDesktop, false);
+oculus.addEventListener('click', initOculus, false);
 cardboard.addEventListener('click', initCardboard, false);
+
+/* Fonction d'initialisation pour une visualisation sur ordinateur */
+
+function initDesktop()
+{
+
+}
+
+/* Fonction d'initialisation pour visualisation avec un kit Oculus */
+
+function initOculus()
+{
+
+}
+
+/* Fonction d'initialisation avec un kit Google Cardboard */
 
 function initCardboard()
 {
-    document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
+    document.getElementById('blocker').style.display = 'none';      // Disparition du menu
 
-    init();
-    animate();
+    init();                                                         // Initialisation
+    animate();                                                      // Boucle de rendu
 }
 
 function init() {
