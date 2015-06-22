@@ -47,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/js/test42.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="69" column="46" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
+              <caret line="80" column="2" selection-start-line="80" selection-start-column="2" selection-end-line="80" selection-end-column="2" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -59,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/js/test12.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="88" column="98" selection-start-line="76" selection-start-column="4" selection-end-line="88" selection-end-column="98" />
+              <caret line="94" column="92" selection-start-line="92" selection-start-column="4" selection-end-line="94" selection-end-column="92" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -715,7 +715,7 @@
     <entry file="file://$PROJECT_DIR$/js/test12.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="98" selection-start-line="76" selection-start-column="4" selection-end-line="88" selection-end-column="98" />
+          <caret line="94" column="92" selection-start-line="92" selection-start-column="4" selection-end-line="94" selection-end-column="92" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -725,7 +725,7 @@
     <entry file="file://$PROJECT_DIR$/js/test42.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="46" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
+          <caret line="80" column="2" selection-start-line="80" selection-start-column="2" selection-end-line="80" selection-end-column="2" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

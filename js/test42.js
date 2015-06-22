@@ -66,13 +66,19 @@ function init()
     /* Initialisation de la scène */
     scene = new THREE.Scene();
 
+    /* Initialisation de la caméra */
+
+    camera = new THREE.PerspectiveCamera(45, 1, 0.1, 5000); // Caméra en vue perspective, FOV de 45 degrés, ratio 1, intervalle de profondeur [0.1, 5000]
+    camera.position.set(0,150,0);                           // Position de la caméra affectée à +0X +150Y +0Z
+    scene.add(camera);                                      // Ajout de la caméra à la scène
 
     effect = new THREE.StereoEffect(renderer);
 
+    /*
     camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
     camera.position.set(0, 100, 100);
     scene.add(camera);
-
+*/
     controls = new THREE.OrbitControls(camera, element);
     // controls.rotateUp(Math.PI / 4);
     // controls.rotateLeft(-Math.PI / 8);
