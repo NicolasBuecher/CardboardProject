@@ -21,58 +21,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="home3.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/home3.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="14" selection-start-line="28" selection-start-column="8" selection-end-line="49" selection-end-column="14" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style3.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/style3.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="1" selection-start-line="16" selection-start-column="0" selection-end-line="65" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="home42.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/home42.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.114394665">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.40038133">
+              <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test12.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/test12.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="58" selection-start-line="10" selection-start-column="0" selection-end-line="16" selection-end-column="58" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="76" column="10" selection-start-line="76" selection-start-column="10" selection-end-line="76" selection-end-column="10" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -91,29 +47,7 @@
         <entry file="file://$PROJECT_DIR$/js/test42.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="scene.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/scene.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="94" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test10.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/test10.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="107" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="107" />
+              <caret line="252" column="6" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="6" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -779,7 +713,7 @@
     <entry file="file://$PROJECT_DIR$/js/test42.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
+          <caret line="252" column="6" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="6" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -788,8 +722,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/home42.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.114394665">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.40038133">
+          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
           <folding>
             <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>

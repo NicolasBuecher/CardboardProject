@@ -235,6 +235,12 @@ function animate(t) {
 function fullscreen()
 {
 
+    if (screenfull.enabled)
+    {
+        screenfull.request(container);
+    }
+
+/*
     if (container.requestFullscreen) {
         container.requestFullscreen();
     } else if (container.msRequestFullscreen) {
@@ -244,6 +250,7 @@ function fullscreen()
     } else if (container.webkitRequestFullscreen) {
         container.webkitRequestFullscreen();
     }
+    */
 }
 
 function loadScene()
