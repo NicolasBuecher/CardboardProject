@@ -68,7 +68,7 @@ function init()
 
     /* Initialisation de la caméra */
 
-    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 5000); // Caméra en vue perspective, FOV de 45 degrés, ratio 1, intervalle de profondeur [0.1, 5000]
+    camera = new THREE.PerspectiveCamera(90, 1, 0.1, 5000); // Caméra en vue perspective, FOV de 45 degrés, ratio 1, intervalle de profondeur [0.1, 5000]
     camera.position.set(0,150,0);                           // Position de la caméra affectée à +0X +150Y +0Z
     scene.add(camera);                                      // Ajout de la caméra à la scène
 
