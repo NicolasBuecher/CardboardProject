@@ -205,28 +205,65 @@ function resize()
 
 }
 
-function update(dt) {
-    //resize();
+/* Fonction de mise à jour des paramètres du rendu */
+
+function update(dt)
+{
+
+    /* Mise à jour de la matrice de projection */
 
     camera.updateProjectionMatrix();
 
+    /* Mise à jour des contrôles */
+
     controls.update(dt);
+
 }
 
-function render(dt) {
-    // TODO: if device orientation !e.alpha, use renderer instead of stereo effect
-    // renderer.render(scene, camera);
+/* Fonction de rendu de la scène */
 
-    effect.render(scene, camera);
+function render(dt)
+{
+
+    switch ( currentDevice )
+    {
+        case OCULUS:
+        case CARDBOARD:
+            effect.render(scene, camera);
+            break;
+        case DESKTOP:
+            renderer.render(scene, camera);
+            break;
+        default:
+            break;
+    }
+
 }
 
-function animate(t) {
+/* Boucle de rendu */
+
+function animate(t)
+{
+
+    /* Boucle à chaque fois qu'une frame est nécessaire */
+
     requestAnimationFrame(animate);
 
+    /* Mise à jour des contrôles et de la matrice de projection */
+
     update(clock.getDelta());
+
+    /* Rendu de la scène */
+
     render(clock.getDelta());
+
+    /* Mise à jour du panneau de statistiques */
+
     stats.update();
+
 }
+
+/* Fonction permettant le passage en mode plein écran */
 
 function fullscreen()
 {
@@ -240,15 +277,3 @@ function fullscreen()
         alert("Impossible de passer en mode plein écran.");
     }
 }
-
-
-/*controls = new THREE.OrbitControls(camera, element);
-
- controls.target.set(
- camera.position.x,
- camera.position.y,
- camera.position.z - 0.1
- );
- controls.noZoom = true;
- controls.noPan = true;
- */
