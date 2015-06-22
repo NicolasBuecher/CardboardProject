@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cardboard Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+
+    <style>
+        html { overflow: hidden; }
+        body {
+            margin: 0px;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        a { color: #fc0; text-decoration: none; }
+
+        #example {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #info { text-align: left; color: #fff; position: absolute; width: 240px; padding: 15px; background: rgba(0,0,0,0.2); bottom: 50px; left: 10px; display: none; }
+        #info h1 { margin: 0 0 10px; font-size: 20px; }
+        h1 a { text-decoration: none; }
+        #info-icon { position: absolute; left: 10px; bottom: 10px; background: rgba(0,0,0,0.3); width: 30px; height: 30px; font-weight: bold; text-align: center; line-height: 30px; color: #fff; font-family: monospace; font-size: 16px; }
+        #info-icon:hover { cursor: pointer; background: rgba(0,0,0,0.4); }
+
+        /* stats */
+        #fps, #ms { background: transparent !important; }
+        #fpsText, #msText { color: #ddd !important; text-shadow: 0 1px 1px rgba(0,0,0,0.8); }
+        #fpsGraph, #msGraph { display: none; }
+    </style>
+
+    <!-- Google Analytics -->
+    <script>
+        if (document.location.hostname != 'localhost') {
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-34432087-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        }
+    </script>
+
+</head>
+<body>
+<div id="example"></div>
+
+<div id="info-icon">i</div>
+<div id="info">
+    <h1>Cardboard VR Panorama</h1>
+
+    <p>Created by <a href="http://www.davidscottlyons.com/threejs" target="_blank">David Lyons</a> for <a href="https://www.google.com/get/cardboard/">Cardboard</a>.</p>
+
+    <p>
+        Resources used:<br>
+        <a href="http://threejs.org/" target="_blank">three.js</a><br>
+        <a href="http://vr.chromeexperiments.com" target="_blank">vr.chromeexperiments.com</a><br>
+        <a href="http://threejs.org/examples/webgl_panorama_equirectangular">equirectangular panorama example</a><br>
+        <a href="https://itunes.apple.com/gb/app/photosynth/id430065256">Photosynth</a> / <a href="http://aerotwist.com/tutorials/create-your-own-environment-maps/">Paul Lewis</a>
+    </p>
+
+    Device Orientation Controls<br>
+    + Stereo Effect
+
+    </div>
+
+<script src="js/three.min.js"></script>
+<script src="js/StereoEffect.js"></script>
+<script src="js/DeviceOrientationControls.js"></script>
+<script src="js/OrbitControls.js"></script>
+
+<script src="js/Detector.js"></script>
+<script src="js/stats.min.js"></script>
+
+<script>
+
+    // Google Cardboard VR Panorama Demo
+
+    // Sources:
+    // http://vr.chromeexperiments.com/
+    // http://threejs.org/examples/webgl_effects_stereo
+    // http://threejs.org/examples/misc_controls_deviceorientation
+    // http://threejs.org/examples/webgl_panorama_equirectangular
+    // http://threejs.org/examples/webgl_video_panorama_equirectangular
+
+    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+    $('#info-icon').click(function(){ $('#info').fadeToggle('fast'); });
+
+    var camera, scene, renderer;
+    var effect, controls;
+    var element, container;
+
+    var clock = new THREE.Clock();
+
+    init();
+    animate();
+
+    function init() {
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setClearColor( 0x000000 );
+        element = renderer.domElement;
+        container = document.getElementById('example');
+        container.appendChild(element);
+
+        effect = new THREE.StereoEffect(renderer);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
+        camera.position.set(0, 100, 100);
+        scene.add(camera);
+
+        controls = new THREE.OrbitControls(camera, element);
+        // controls.rotateUp(Math.PI / 4);
+        // controls.rotateLeft(-Math.PI / 8);
+        controls.target.set(
+                camera.position.x,
+                camera.position.y,
+                camera.position.z - 0.1
+        );
+        controls.noZoom = true;
+        controls.noPan = true;
+
+        // var axh = new THREE.AxisHelper( 50 )
+        // axh.position.y = -10;
+        // scene.add( axh );
+
+        function setOrientationControls(e) {
+            if (!e.alpha) {
+                return;
+            }
+
+            controls = new THREE.DeviceOrientationControls(camera, true);
+            controls.connect();
+            controls.update();
+
+            element.addEventListener('click', fullscreen, false);
+
+            window.removeEventListener('deviceorientation', setOrientationControls, true);
+        }
+        window.addEventListener('deviceorientation', setOrientationControls, true);
+
+
+        // Floor
+
+
+        // var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+        // scene.add(light);
+
+        // var texture = THREE.ImageUtils.loadTexture(
+        // 	'_assets/textures/patterns/checker.png'
+        // );
+        // texture.wrapS = THREE.RepeatWrapping;
+        // texture.wrapT = THREE.RepeatWrapping;
+        // texture.repeat = new THREE.Vector2(50, 50);
+        // texture.anisotropy = renderer.getMaxAnisotropy();
+
+        // var material = new THREE.MeshPhongMaterial({
+        // 	color: 0xffffff,
+        // 	specular: 0xffffff,
+        // 	shininess: 20,
+        // 	shading: THREE.FlatShading,
+        // 	map: texture,
+        // 	transparent: true,
+        // 	opacity: 0.5
+        // });
+
+        // var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+
+        // var mesh = new THREE.Mesh(geometry, material);
+        // mesh.rotation.x = -Math.PI / 2;
+        // mesh.position.y = -10;
+        // scene.add(mesh);
+
+
+
+
+        // Photo taken with Photosynth app
+
+
+        // Equirectangular panorama - broken on iOS because of iOS bug?
+
+        // var geometry = new THREE.SphereGeometry( 500, 60, 40 );
+        // geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+
+        // var material = new THREE.MeshBasicMaterial( {
+        // 	map: THREE.ImageUtils.loadTexture( '_assets/images/slingshot-cubemap/environment.jpg' )
+        // } );
+
+        // mesh = new THREE.Mesh( geometry, material );
+        // mesh.rotation.y = - Math.PI / 2;
+        // scene.add( mesh );
+
+        // wfh = new THREE.WireframeHelper( mesh, 0xffffff );
+        // scene.add( wfh );
+
+
+/*
+        // Cubemap Skybox
+
+        var path = "_assets/images/slingshot-cubemap/";
+        var format = '.png';
+        var urls = [
+            path + 'pos-x' + format, path + 'neg-x' + format,
+            path + 'pos-y' + format, path + 'neg-y' + format,
+            path + 'pos-z' + format, path + 'neg-z' + format
+        ];
+
+        var reflectionCube = THREE.ImageUtils.loadTextureCube( urls );
+        reflectionCube.format = THREE.RGBFormat;
+
+        var shader = THREE.ShaderLib[ "cube" ];
+        shader.uniforms[ "tCube" ].value = reflectionCube;
+
+        var material = new THREE.ShaderMaterial( {
+
+            fragmentShader: shader.fragmentShader,
+            vertexShader: shader.vertexShader,
+            uniforms: shader.uniforms,
+            depthWrite: false,
+            side: THREE.BackSide
+
+        });
+
+        mesh = new THREE.Mesh( new THREE.BoxGeometry( 500, 500, 500 ), material );
+        scene.add( mesh );
+
+        // wfh = new THREE.WireframeHelper( mesh, 0xffffff );
+        // scene.add( wfh );
+*/
+
+        var light = new THREE.PointLight( 0xffffff );
+        light.position.set(200,200,200);
+        scene.add(light);
+
+
+        var mesh = new THREE.Mesh( new THREE.BoxGeometry(500,500,500), new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.BackSide }));
+        scene.add(mesh);
+
+        mesh = new THREE.Mesh( new THREE.PlaneGeometry(500, 500), new THREE.MeshBasicMaterial({ color: 0x0000ff }));
+        scene.add(mesh);
+
+        mesh = new THREE.Mesh( new THREE.BoxGeometry(50,50,50), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+        scene.add(mesh);
+
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+        stats.domElement.style.zIndex = 100;
+        container.appendChild( stats.domElement );
+
+
+        window.addEventListener('resize', resize, false);
+        setTimeout(resize, 1);
+    }
+
+    function resize() {
+        var width = container.offsetWidth;
+        var height = container.offsetHeight;
+
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(width, height);
+        effect.setSize(width, height);
+    }
+
+    function update(dt) {
+        resize();
+
+        camera.updateProjectionMatrix();
+
+        controls.update(dt);
+    }
+
+    function render(dt) {
+        // TODO: if device orientation !e.alpha, use renderer instead of stereo effect
+        // renderer.render(scene, camera);
+
+        effect.render(scene, camera);
+    }
+
+    function animate(t) {
+        requestAnimationFrame(animate);
+
+        update(clock.getDelta());
+        render(clock.getDelta());
+        stats.update();
+    }
+
+    function fullscreen() {
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+            container.mozRequestFullScreen();
+        } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+        }
+    }
+</script>
+</body>
+</html>
