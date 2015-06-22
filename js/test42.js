@@ -97,7 +97,7 @@ function initCardboard()
     window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 
     /* Lancement de la boucle de rendu */
-    animateCardboard();
+    animateCardboard2();
 
 }
 
@@ -266,9 +266,29 @@ function animate(t)
 function animateCardboard()
 {
 
+    /* Boucle à chaque fois qu'une frame est nécessaire */
+
     requestAnimationFrame(animateCardboard);
 
+    /* Mise à jour des contrôles et de la matrice de projection */
+
     update(clock.getDelta());
+
+    /* Rendu de la scène */
+
+    effect.render(scene, camera);
+
+    /* Mise à jour du panneau de statistiques */
+
+    stats.update();
+
+}
+
+function animateCardboard2()
+{
+    requestAnimationFrame(animateCardboard2);
+
+    controls.update();
     effect.render(scene, camera);
     stats.update();
 }
