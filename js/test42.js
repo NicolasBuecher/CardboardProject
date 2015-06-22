@@ -38,7 +38,18 @@ function initDesktop()
 
     currentDevice = DESKTOP;
 
-    alert("Fonctionnalité pas encore disponible !");
+    /* Disparition du menu */
+
+    document.getElementById('blocker').style.display = 'none';
+
+    /* Initialisation de la scène */
+
+    init();
+
+    /* Lancement de la boucle de rendu */
+
+    animateDesktop();
+
 }
 
 /* Fonction d'initialisation pour visualisation avec un kit Oculus */
@@ -97,7 +108,8 @@ function initCardboard()
     window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 
     /* Lancement de la boucle de rendu */
-    animateCardboard2();
+
+    animateCardboard();
 
 }
 
@@ -197,7 +209,7 @@ function resize()
             effect.setSize(width, height);
             break;
         case DESKTOP:
-            renderer.render(scene, camera);
+            renderer.setSize(width, height);
             break;
         default:
             break;
@@ -205,63 +217,30 @@ function resize()
 
 }
 
-/* Fonction de mise à jour des paramètres du rendu */
+/* Boucle de rendu pour un rendu basique */
 
-function update(dt)
-{
-
-    /* Mise à jour de la matrice de projection */
-
-    camera.updateProjectionMatrix();
-
-    /* Mise à jour des contrôles */
-
-    controls.update(dt);
-
-}
-
-/* Fonction de rendu de la scène */
-
-function render(dt)
-{
-
-    switch ( currentDevice )
-    {
-        case OCULUS:
-        case CARDBOARD:
-            effect.render(scene, camera);
-            break;
-        case DESKTOP:
-            renderer.render(scene, camera);
-            break;
-        default:
-            break;
-    }
-
-}
-
-/* Boucle de rendu */
-
-function animate(t)
+function animateDesktop()
 {
 
     /* Boucle à chaque fois qu'une frame est nécessaire */
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateDesktop);
 
-    /* Mise à jour des contrôles et de la matrice de projection */
+    /* Mise à jour des contrôles */
 
-    update(clock.getDelta());
+    controls.update();
 
     /* Rendu de la scène */
 
-    render(clock.getDelta());
+    renderer.render(scene, camera);
 
     /* Mise à jour du panneau de statistiques */
 
     stats.update();
 
 }
+
+/* Boucle de rendu pour un rendu avec effet stéréo */
 
 function animateCardboard()
 {
@@ -270,9 +249,9 @@ function animateCardboard()
 
     requestAnimationFrame(animateCardboard);
 
-    /* Mise à jour des contrôles et de la matrice de projection */
+    /* Mise à jour des contrôles */
 
-    update(clock.getDelta());
+    controls.update();
 
     /* Rendu de la scène */
 
@@ -282,26 +261,6 @@ function animateCardboard()
 
     stats.update();
 
-}
-
-function animateCardboard2()
-{
-    requestAnimationFrame(animateCardboard2);
-
-    controls.update();
-    switch ( currentDevice )
-    {
-        case OCULUS:
-        case CARDBOARD:
-            effect.render(scene, camera);
-            break;
-        case DESKTOP:
-            renderer.render(scene, camera);
-            break;
-        default:
-            break;
-    }
-    stats.update();
 }
 
 /* Fonction permettant le passage en mode plein écran */
