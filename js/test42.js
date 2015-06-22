@@ -2,11 +2,20 @@
 
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
+/* Déclaration des constantes */
+
+var UNKNOWN = 0;
+var DESKTOP = 1;
+var OCULUS = 2;
+var CARDBOARD = 3;
+
 /* Déclaration des variables globales */
 
 var camera, scene, renderer;
 var effect, controls;
 var element, container;
+
+var currentDevice = UNKNOWN;
 
 var clock = new THREE.Clock();
 
@@ -24,6 +33,11 @@ cardboard.addEventListener('click', initCardboard, false);
 
 function initDesktop()
 {
+
+    /* Enregistrement du choix */
+
+    currentDevice = DESKTOP;
+
     alert("Fonctionnalité pas encore disponible !");
 }
 
@@ -31,6 +45,11 @@ function initDesktop()
 
 function initOculus()
 {
+
+    /* Enregistrement du choix */
+
+    currentDevice = OCULUS;
+
     alert("Fonctionnalité pas encore disponible !");
 }
 
@@ -38,6 +57,10 @@ function initOculus()
 
 function initCardboard()
 {
+
+    /* Enregistrement du choix */
+
+    currentDevice = CARDBOARD;
 
     /* Disparition du menu */
 
@@ -147,17 +170,38 @@ function init()
 
 }
 
+/* Fonction de redimensionnement du canvas en cas de redimensionnement de la fenêtre */
+
 function resize()
 {
+
+    /* Récupération des dimensions du container */
 
     var width = container.offsetWidth;
     var height = container.offsetHeight;
 
+    /* Mise à jour du ratio de la caméra */
+
     camera.aspect = width / height;
+
+    /* Mise à jour de la matrice de projection */
+
     camera.updateProjectionMatrix();
 
-    //renderer.setSize(width, height);
-    effect.setSize(width, height);
+    /* Mise à jour de la taille de la fenêtre de rendu */
+
+    switch ( currentDevice )
+    {
+        case OCULUS:
+        case CARDBOARD:
+            effect.setSize(width, height);
+            break;
+        case DESKTOP:
+            renderer.render(scene, camera);
+            break;
+        default:
+            break;
+    }
 
 }
 
