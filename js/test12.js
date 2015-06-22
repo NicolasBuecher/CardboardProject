@@ -40,6 +40,8 @@ function initOculus()
 
 function initCardboard()
 {
+    document.getElementById('blocker').style.display = 'none';                      // Suppression du texte
+    
     init();
 
     effect = new THREE.StereoEffect(renderer);
