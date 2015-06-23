@@ -98,11 +98,63 @@ function initDesktop()
 function initOculus()
 {
 
-    /* Enregistrement du choix */
+    if ( currentDevice == OCULUS )
+    {
 
-    currentDevice = OCULUS;
+        /* Disparition du menu */
 
-    alert("Fonctionnalité pas encore disponible !");
+        document.getElementById('blocker').style.display = 'none';
+
+        /* Activation des contrôles */
+
+        controlsEnabled = true;
+
+    }
+    else {
+
+        /* Interruption de la boucle de rendu en cours s'il y a lieu */
+
+        if (currentDevice !== UNKNOWN) {
+            cancelAnimationFrame(requestId);
+            container.removeChild(element);
+        }
+
+        /* Enregistrement du choix */
+
+        currentDevice = OCULUS;
+
+        /* Disparition du menu */
+
+        document.getElementById('blocker').style.display = 'none';
+
+        /* Initialisation de la scène */
+
+        init();
+
+        /* Initialisation de l'effet stéréo */
+
+        effect = new THREE.VREffect(renderer, function () {
+        });
+
+        /* Restriction sur les contrôles */
+
+        controls.noZoom = true;         // Pas de zoom
+        controls.noPan = true;          // Pas de translation de la caméra
+
+        /* Initialisation des contrôles Oculus */
+
+        controls = new THREE.VRControls(camera);
+
+        /* Activation des contrôles */
+
+        controlsEnabled = true;
+
+        /* Lancement de la boucle de rendu */
+
+        animateOculus();
+
+    }
+
 }
 
 /* Fonction d'initialisation avec un kit Google Cardboard */
@@ -214,7 +266,7 @@ function init()
 
     camera = new THREE.PerspectiveCamera(45, 1, 0.1, 5000); // Caméra en vue perspective, FOV vertical de 45 degrés, ratio 1, intervalle de profondeur [0.1, 5000]
     camera.position.set(0,150,0);                           // Position de la caméra affectée à +0X +150Y +0Z
-    if ( currentDevice == CARDBOARD ) camera.fov = 90;      // FOV vertical de 90 degrés dans le cas d'un affichage Google Cardboard
+    if ( currentDevice !== DESKTOP ) camera.fov = 75;       // FOV vertical de 75 degrés dans le cas d'un affichage VR
     scene.add(camera);                                      // Ajout de la caméra à la scène
 
     /* Initialisation des contrôles de base */
@@ -278,6 +330,8 @@ function resize()
     switch ( currentDevice )
     {
         case OCULUS:
+            effect.setSize(width, height);
+            break;
         case CARDBOARD:
             effect.setSize(width, height);
             break;
@@ -311,6 +365,36 @@ function animateDesktop()
         /* Rendu de la scène */
 
         renderer.render(scene, camera);
+
+        /* Mise à jour du panneau de statistiques */
+
+        stats.update();
+
+    }
+
+}
+
+/* Boucle de rendu pour un rendu VR */
+
+function animateOculus()
+{
+
+    /* Boucle à chaque fois qu'une frame est nécessaire */
+
+    requestId = requestAnimationFrame(animateOculus);
+
+    /* Ne rien faire si les contrôles ont été bloqués */
+
+    if ( controlsEnabled )
+    {
+
+        /* Mise à jour des contrôles */
+
+        controls.update();
+
+        /* Rendu de la scène */
+
+        effect.render(scene, camera);
 
         /* Mise à jour du panneau de statistiques */
 
@@ -375,11 +459,8 @@ function onKeyDown(e)
     switch (e.keyCode )
     {
         case 27:
-            if ( currentDevice == DESKTOP || currentDevice == CARDBOARD )
-            {
-                controlsEnabled = false;
-                document.getElementById('blocker').style.display = 'initial';
-            }
+            controlsEnabled = false;
+            document.getElementById('blocker').style.display = 'initial';
             break;
         default:
             break;
