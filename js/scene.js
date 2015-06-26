@@ -72,7 +72,7 @@ function loadCubes()
 
     /* Initialisation des meshs des cubes */
 
-    cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);              // Création du mesh
+    cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);                  // Création du mesh
     cubeMesh.rotation.y = Math.PI * 45 / 180;                               // Rotation de PI/4 autour de l'axe Y
     cubeMesh.position.set(-200, 25, -200);                                  // Position affectée à -200X +25Y -200Z
     scene.add(cubeMesh);                                                    // Ajout du mesh à la scène
