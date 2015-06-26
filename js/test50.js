@@ -335,4 +335,24 @@ setupGUI();
 initFileReading();
 initEventhandling();
 
+function setOrientationControls(e)
+{
+
+    if (!e.alpha)
+    {
+        return;
+    }
+
+    controls = new THREE.DeviceOrientationControls(camera, true);                   // Contrôles par orientation du mobile
+    controls.connect();                                                             // Initialisation
+    controls.update();                                                              // Mise à jour
+
+    element.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
+
+    window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
+
+}
+
+window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
+
 render();
