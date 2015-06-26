@@ -343,11 +343,11 @@ function setOrientationControls(e)
         return;
     }
 
-    controls = new THREE.DeviceOrientationControls(camera, true);                   // Contrôles par orientation du mobile
-    controls.connect();                                                             // Initialisation
-    controls.update();                                                              // Mise à jour
+    Camera.controls = new THREE.DeviceOrientationControls(Camera.camera, true);                   // Contrôles par orientation du mobile
+    Camera.controls.connect();                                                             // Initialisation
+    Camera.controls.update();                                                              // Mise à jour
 
-    element.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
+    //element.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
     window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
 

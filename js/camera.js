@@ -50,6 +50,6 @@ function setupcamera(){
     useOrbitControls();
 
     //debug for zoom test
-    useFPSControls();
+    //useFPSControls();
     Camera.controls.reset();
 }
