@@ -294,15 +294,24 @@ if (App.autoLoadData)
 {
     loadBinaryFile();
 }
+
 window.addEventListener('devicelight', test, false);
+window.addEventListener('deviceproximity', test, false);
+window.addEventListener('devicetemperature', test, false);
+window.addEventListener('devicepressure', test, false);
+window.addEventListener('devicehumidity', test, false);
+window.addEventListener('devicenoise', test, false);
+
 alert("Coucou");
 initFileReading();
 initEventhandling();
 
 render();
 
-function test(evt)
+function test(value, min, max)
 {
     alert("Coucou2");
-    console.log(evt.target);
+    console.log("value : " + value);
+    console.log("min : " + min);
+    console.log("max : " + max);
 }
