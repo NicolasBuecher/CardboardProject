@@ -295,7 +295,7 @@ if (App.autoLoadData)
     loadBinaryFile();
 }
 window.addEventListener('devicelight', test, false);
-
+alert("Coucou");
 initFileReading();
 initEventhandling();
 
@@ -303,5 +303,6 @@ render();
 
 function test(evt)
 {
+    alert("Coucou2");
     console.log(evt.target);
 }
