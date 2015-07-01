@@ -7,15 +7,28 @@
  * @description Function that is used to refresh the renderer
  */
 function render() {
-    requestAnimationFrame(function (){
+    App.requestId = requestAnimationFrame(function (){
         render();
     });
 
-    if(App.PLAY) {
+    if(App.ANIMATION && App.PLAY) {
         if (App.uniforms.t.value < 1.0) {
             App.uniforms.t.value += App.parameters.speed/100;
         } else {
-            App.uniforms.t.value = 1.0;
+            if(App.parameters.posSnapShot + 2 < App.parameters.nbSnapShot) {
+                App.uniforms.t.value = 0.0;
+                App.parameters.posSnapShot++;
+                App.data.departureArray = App.data.positionsArray[App.parameters.posSnapShot];
+                App.data.directionArray = App.data.directionsArray[App.parameters.posSnapShot];
+                App.animationBufferGeometry.attributes.position = new THREE.BufferAttribute(App.data.departureArray, 3);
+                App.animationBufferGeometry.attributes.position.needsUpdate = true;
+                App.animationBufferGeometry.attributes.endPosition = new THREE.BufferAttribute(App.data.directionArray, 3);
+                App.animationBufferGeometryPointCloud.geometry.attributes.endPosition.needsUpdate = true;
+            }else{
+                App.uniforms.t.value = 1.0;
+                computePositions();//Let's go back to static mode
+                App.PLAY = false;
+            }
         }
     }
 
@@ -33,8 +46,20 @@ function render() {
     //App.colorPickingRenderer.render(App.colorPickerSprite, Camera.camera);
     //getColorPickingPointCloudIntersectionIndex();
 
-    App.effect.render( App.scene, Camera.camera );
-    Camera.controls.update(App.clock.getDelta());
+    App.renderer.render( App.scene, Camera.camera );
+    if(App.CAMERAISFREE) {
+        Camera.controls.update(App.clock.getDelta());
+    }else{
+        Camera.time += 1/60;
+        if(Camera.time < 1.0) {
+            Camera.camera.position.set(Camera.origin.x + Camera.time * Camera.objectif.x,
+                Camera.origin.y + Camera.time * Camera.objectif.y,
+                Camera.origin.z + Camera.time * Camera.objectif.z);
+        }else{
+            console.log(Camera.camera.position);
+            App.CAMERAISFREE = true;
+        }
+    }
 }
 
 /**
@@ -43,7 +68,7 @@ function render() {
  * @param el
  */
 function showSelectedInfo(el){
-    var vec3 = new THREE.Vector3(el.object.geometry.attributes.position.array[el.index*3], el.object.geometry.attributes.position.array[el.index*3 + 1], el.object.geometry.attributes.position.array[el.index*3 + 2]);
+    var vec3 = new THREE.Vector3(App.data.currentPositionArray[el.index*3], App.data.currentPositionArray[el.index*3 + 1], App.data.currentPositionArray[el.index*3 + 2]);
     var vec2 = worldToScreen(vec3);
     var div = document.getElementById('info_selected');
     div.style.top = vec2.y + 'px';
@@ -57,7 +82,7 @@ function showSelectedInfo(el){
  * @param el
  */
 function showIntersectedInfo(el){
-    var vec3 = new THREE.Vector3(el.object.geometry.attributes.position.array[el.index*3], el.object.geometry.attributes.position.array[el.index*3 + 1], el.object.geometry.attributes.position.array[el.index*3 + 2]);
+    var vec3 = new THREE.Vector3(App.data.currentPositionArray[el.index*3], App.data.currentPositionArray[el.index*3 + 1], App.data.currentPositionArray[el.index*3 + 2]);
     var vec2 = worldToScreen(vec3);
     var div = document.getElementById('info_intersected');
     div.style.top = vec2.y + 'px';
@@ -97,58 +122,84 @@ App.clearPointCloud = function(){
  */
 function loadData(){
 
-    var i = 0;
+    if(App.parameters.nbSnapShot == 0) {    //If it's the first time, let's set things up for static shadering
+        var i = 0;
 
-    for(i = 0; i < App.data.color.length / 3;i++){
-        App.data.color[3*i] = 1.0;
-        App.data.color[3*i + 1] = 1.0;
-        App.data.color[3*i + 2] = 1.0;
-        App.data.colorIndex[3*i] = i;
-        App.data.colorIndex[3*i + 1] = i >> 8;
-        App.data.colorIndex[3*i + 2] = i >> 16;
+        //
+        App.staticBufferGeometry = new THREE.BufferGeometry();
+
+        App.staticBufferGeometry.addAttribute('position', new THREE.BufferAttribute(App.data.currentPositionArray, 3));
+        App.staticBufferGeometry.addAttribute('color' , new THREE.BufferAttribute( App.data.color, 3));
+
+        App.staticBufferGeometry.computeBoundingSphere();
+
+        App.staticBufferGeometry.addDrawCall(0, App.parameters.nbPoint, 0);
+        //App.staticBufferGeometry.addDrawCall(2097152/2, 2097152/2, 2097152/2);
+
+        console.log(App.staticBufferGeometry.drawcalls);
+
+        if(App.FOG){
+            App.staticBufferGeometryPointCloud = new THREE.PointCloud(App.staticBufferGeometry, App.staticFogShaderMaterial);
+        }else{
+            App.staticBufferGeometryPointCloud = new THREE.PointCloud(App.staticBufferGeometry, App.staticShaderMaterial);
+        }
+
+        //computePositions();
+
+        //
+        /*App.colorPickerBufferGeometry = new THREE.BufferGeometry();
+
+         App.departureArray = App.data.positionsArray[App.parameters.nbSnapShot - 1];
+         App.colorPickerBufferGeometry.addAttribute('position', new THREE.BufferAttribute(App.data.departureArray, 3));
+         App.departureArray = App.data.positionsArray[App.parameters.nbSnapShot - 1];
+         App.colorPickerBufferGeometry.addAttribute('endPosition', new THREE.BufferAttribute(App.data.positionsArray[App.parameters.nbSnapShot], 3));
+         App.colorPickerBufferGeometry.addAttribute('colorIndex', new THREE.BufferAttribute(App.data.colorIndex, 3));
+
+         App.colorPickerBufferGeometryPointCloud = new THREE.PointCloud(App.colorPickerBufferGeometry, App.colorPickerShaderMaterial);*/
+
+        //
+
+        App.pointCloud = App.staticBufferGeometryPointCloud;
+
+        App.scene.add(App.pointCloud);
+        //App.colorPickerScene.add(App.colorPickerBufferGeometryPointCloud);
+
+        //TODO disable all events related to animation
+
+
+    }else if(App.parameters.nbSnapShot == 1){   //if it's just the second time, it's animated shadering turn
+
+        //
+        App.animationBufferGeometry = new THREE.BufferGeometry();
+
+        App.data.departureArray = App.data.positionsArray[App.parameters.nbSnapShot - 1];
+        App.data.directionArray = App.data.directionsArray[App.parameters.nbSnapShot - 1];
+
+        App.animationBufferGeometry.addAttribute('position' , new THREE.BufferAttribute( App.data.departureArray, 3 ));
+        App.animationBufferGeometry.addAttribute('endPosition' , new THREE.BufferAttribute( App.data.directionArray, 3 ));
+        App.animationBufferGeometry.addAttribute('color' , new THREE.BufferAttribute( App.data.color, 3 ));
+
+        App.animationBufferGeometry.drawcalls.push({
+            start: 0,
+            count: App.parameters.nbPoint,
+            index: 0
+        });
+
+        if(App.fog){
+            App.animationBufferGeometryPointCloud = new THREE.PointCloud(App.animationBufferGeometry, App.animatedFogShaderMaterial);
+        }else{
+            App.animationBufferGeometryPointCloud = new THREE.PointCloud(App.animationBufferGeometry, App.animatedShaderMaterial);
+        }
+
+        App.ANIMATION = true;
+
+        //TODO enable events related to animation
+
+    }else{  //if we're used to it, no big deal
+
     }
 
-    //
-    App.animationBufferGeometry = new THREE.BufferGeometry();
 
-    App.animationBufferGeometry.addAttribute('position' , new THREE.BufferAttribute( App.data.positionArray, 3 ));
-    App.animationBufferGeometry.addAttribute('endPosition' , new THREE.BufferAttribute( App.data.endPositionArray, 3 ));
-    App.animationBufferGeometry.addAttribute('color' , new THREE.BufferAttribute( App.data.color, 3));
-
-    App.animationBufferGeometryPointCloud = new THREE.PointCloud(App.animationBufferGeometry, App.animatedFogShaderMaterial);
-
-    //
-    App.staticBufferGeometry = new THREE.BufferGeometry();
-
-    App.staticBufferGeometry.addAttribute('position', new THREE.BufferAttribute(App.data.currentPositionArray, 3));
-    App.staticBufferGeometry.addAttribute('color' , new THREE.BufferAttribute( App.data.color, 3));
-
-    App.staticBufferGeometry.computeBoundingSphere();
-
-    App.staticBufferGeometry.drawcalls.push({
-        start: 0,
-        count: 2097152,
-        index: 0
-    });
-
-    App.staticBufferGeometryPointCloud = new THREE.PointCloud(App.staticBufferGeometry, App.staticFogShaderMaterial);
-
-    computePositions();
-
-    //
-    App.colorPickerBufferGeometry = new THREE.BufferGeometry();
-
-    App.colorPickerBufferGeometry.addAttribute('position', new THREE.BufferAttribute(App.data.positionArray, 3));
-    App.colorPickerBufferGeometry.addAttribute('endPosition', new THREE.BufferAttribute(App.data.endPositionArray, 3));
-    App.colorPickerBufferGeometry.addAttribute('colorIndex', new THREE.BufferAttribute(App.data.colorIndex, 3));
-
-    App.colorPickerBufferGeometryPointCloud = new THREE.PointCloud(App.colorPickerBufferGeometry, App.colorPickerShaderMaterial);
-
-    //
-    App.pointCloud = App.staticBufferGeometryPointCloud;
-
-    App.scene.add(App.pointCloud);
-    App.colorPickerScene.add(App.colorPickerBufferGeometryPointCloud);
 }
 
 /**
@@ -157,10 +208,11 @@ function loadData(){
  */
 function computePositions(){
     App.timer.start();
-    for(var i = 0; i < App.data.currentPositionArray.length / 3;i++) {
-        App.data.currentPositionArray[i * 3] = App.data.positionArray[i * 3] + App.uniforms.t.value * App.data.endPositionArray[i * 3];
-        App.data.currentPositionArray[i * 3 + 1] = App.data.positionArray[i * 3 + 1] + App.uniforms.t.value * App.data.endPositionArray[i * 3 + 1];
-        App.data.currentPositionArray[i * 3 + 2] = App.data.positionArray[i * 3 + 2] + App.uniforms.t.value * App.data.endPositionArray[i * 3 + 2];
+    var length = App.data.currentPositionArray.length / 3;
+    for(var i = 0; i < length;i++) {
+        App.data.currentPositionArray[i * 3] = App.data.departureArray[i * 3] + App.uniforms.t.value * App.data.directionArray[i * 3];
+        App.data.currentPositionArray[i * 3 + 1] = App.data.departureArray[i * 3 + 1] + App.uniforms.t.value * App.data.directionArray[i * 3 + 1];
+        App.data.currentPositionArray[i * 3 + 2] = App.data.departureArray[i * 3 + 2] + App.uniforms.t.value * App.data.directionArray[i * 3 + 2];
     }
     App.staticBufferGeometry.attributes.position.needsUpdate = true;
     setStaticShaderMode();
@@ -179,9 +231,9 @@ function timedChunckComputePositions(){
         var start = new Date().getTime();
         //var time = App.uniforms.t.value - lastTime;
         for(;i < App.data.currentPositionArray.length / 3 && (new Date().getTime()) - start < 50;i++){
-            App.data.currentPositionArray[i * 3] = App.data.positionArray[i * 3] + App.uniforms.t.value * App.data.endPositionArray[i * 3];
-            App.data.currentPositionArray[i * 3 + 1] = App.data.positionArray[i * 3 + 1] + App.uniforms.t.value * App.data.endPositionArray[i * 3 + 1];
-            App.data.currentPositionArray[i * 3 + 2] = App.data.positionArray[i * 3 + 2] + App.uniforms.t.value * App.data.endPositionArray[i * 3 + 2];
+            App.data.currentPositionArray[i * 3] = App.data.positionsArray[App.parameters.posSnapShot][i * 3] + App.uniforms.t.value * App.data.directionsArray[App.parameters.posSnapShot][i * 3];
+            App.data.currentPositionArray[i * 3 + 1] = App.data.positionsArray[App.parameters.posSnapShot][i * 3 + 1] + App.uniforms.t.value * App.data.directionsArray[App.parameters.posSnapShot][i * 3 + 1];
+            App.data.currentPositionArray[i * 3 + 2] = App.data.positionsArray[App.parameters.posSnapShot][i * 3 + 2] + App.uniforms.t.value * App.data.directionsArray[App.parameters.posSnapShot][i * 3 + 2];
         }
         if(i < App.data.currentPositionArray.length / 3){
             App.staticBufferGeometry.attributes.position.needsUpdate = true;
@@ -204,6 +256,11 @@ function timedChunckComputePositions(){
 function setAnimationShaderMode(){
     App.scene.remove(App.pointCloud);
     App.pointCloud = App.animationBufferGeometryPointCloud;
+    if(App.FOG){
+        App.pointCloud.material = App.animatedFogShaderMaterial;
+    }else{
+        App.pointCloud.material = App.animatedShaderMaterial;
+    }
     App.animationBufferGeometry.attributes.color.needsUpdate = true;
     App.scene.add(App.pointCloud);
 }
@@ -216,143 +273,35 @@ function setAnimationShaderMode(){
 function setStaticShaderMode(){
     App.scene.remove(App.pointCloud);
     App.pointCloud = App.staticBufferGeometryPointCloud;
+    if(App.FOG){
+        App.pointCloud.material = App.staticFogShaderMaterial;
+    }else{
+        App.pointCloud.material = App.staticShaderMaterial;
+    }
     App.scene.add(App.pointCloud);
 }
 
-var name = "Deparis script";
-var script = function(file, files, last){
-    /*
-     The data contains a header with two values.
-     One Int : that is the number of elements of the file
-     One float : I don't know what he stands for
+document.getElementById('blocker').style.display = 'none';
 
-     the data is stored as float following this pattern for each element
-     pos 0 1 2
-     vit 3 4 5
-     ident 6
-     masse 7
-     epot 8
-     ekin 9
-
-     So if you wanna access this data don't forget to specify +2 to avoid picking the header infos
-     */
-    var array = new Float32Array(file.result);
-
-    var nbElements = (array.length-2)/10;
-
-
-    var index;
-    if(App.parameters.nbSnapShot == 0){
-        for(var i = 0; i<nbElements;i++)
-        {
-            index = array[8+i*10];
-            App.data.positionArray[index*3]=App.data.currentPositionArray[index*3]=array[2+i*10];
-            App.data.positionArray[index*3+1]=App.data.currentPositionArray[index*3+1]=array[3+i*10];
-            App.data.positionArray[index*3+2]=App.data.currentPositionArray[index*3+2]=array[4+i*10];
-        }
-    }
-    else
-    {
-        for(var i = 0; i<nbElements;i++)
-        {
-            index = array[8+i*10];
-            var x = array[2+i*10];
-            var y = array[3+i*10];
-            var z = array[4+i*10];
-
-            var dx = x-App.data.positionArray[index*3];
-            var dy = y-App.data.positionArray[index*3+1];
-            var dz = z-App.data.positionArray[index*3+2];
-
-            //Correcting the vector direction for the elements going outside the box
-            //To be exact, you can check in the shader if the position goes outside the box, then you change it. Instead of doing that here.
-            if(dx > 0.5)
-            {
-                App.data.positionArray[index*3]+=1;
-                dx = -(App.data.positionArray[index*3]-x);
-            }
-            else if(dx < -0.5)
-            {
-                App.data.positionArray[index*3]-=1;
-                dx = -(App.data.positionArray[index*3]-x);
-            }
-
-
-            if(dy > 0.5)
-            {
-                App.data.positionArray[index*3+1]+=1;
-                dy = -(App.data.positionArray[index*3+1]-y);
-            }
-            else if(dy < -0.5)
-            {
-                App.data.positionArray[index*3+1]-=1;
-                dy = -(App.data.positionArray[index*3+1]-y);
-            }
-
-
-            if(dz > 0.5)
-            {
-                App.data.positionArray[index*3+2]+=1;
-                dz = -(App.data.positionArray[index*3+2]-z);
-            }
-            else if(dz < -0.5)
-            {
-                App.data.positionArray[index*3+2]-=1;
-                dz = -(App.data.positionArray[index*3+2]-z);
-            }
-
-            App.data.endPositionArray[index*3]= dx;
-            App.data.endPositionArray[index*3+1]= dy;
-            App.data.endPositionArray[index*3+2]= dz;
-        }
-    }
-
-    //Checking if it's the last file reading
-    if(last)
-    {
-        App.timer.stop("populating buffer");
-
-        //If it's not the first part file reading, then call loadData that will add the elements to the scene
-        if(App.parameters.nbSnapShot != 0)
-        {
-            App.timer.start();
-            loadData();
-            App.timer.stop("Load Data");
-        }
-        App.parameters.nbSnapShot++;
-
-    }
-    file = null;
-};
-
-
-App.addScript(name, script);
+App.addScript(name, script, true);
+App.addScript(name2, script2, false);
 
 setupScene();
 setupcamera();
 setupGUI();
 
+if (App.autoLoadData)
+{
+    loadBinaryFile();
+}
+window.addEventListener('devicelight', test, false);
+
 initFileReading();
 initEventhandling();
 
-function setOrientationControls(e)
-{
-
-    if (!e.alpha)
-    {
-        return;
-    }
-
-    Camera.controls = new THREE.DeviceOrientationControls(Camera.camera, true);                   // Contrôles par orientation du mobile
-    Camera.controls.connect();                                                             // Initialisation
-    Camera.controls.update();                                                              // Mise à jour
-
-    //element.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
-
-    window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
-
-}
-
-window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
-
 render();
+
+function test(evt)
+{
+    console.log(evt.target);
+}

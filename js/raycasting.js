@@ -128,7 +128,7 @@ function whitify(color, index){
  */
 function getMousePointCloudIntersection(mouse)
 {
-    var magic_size = Gui.gui.__controllers[0].__min/2;//Why ? --> this value is small enough to be accurate - without intersecting too many particles, and big enough to catch something on screen.
+    //var magic_size = Gui.gui.__controllers[0].__min/2;//Why ? --> this value is small enough to be accurate - without intersecting too many particles, and big enough to catch something on screen.
     var size = App.uniforms.size.value/(2*400);//This one works, but is also a bit magical.
     var point = null;
     if(App.pointCloud != null)
@@ -184,7 +184,11 @@ function zoomMacro(event)
             var y = App.intersection.object.geometry.attributes.position.array[App.intersection.index*3+1];
             var z = App.intersection.object.geometry.attributes.position.array[App.intersection.index*3+2];
 
-            Camera.camera.position.set(x,y,z);
+            Camera.origin = new THREE.Vector3(Camera.camera.position.x, Camera.camera.position.y,Camera.camera.position.z);
+            Camera.objectif = new THREE.Vector3(x - Camera.origin.x, y - Camera.origin.y, z - Camera.origin.z);
+            console.log(Camera.objectif);
+            Camera.time = 0.0;
+            App.CAMERAISFREE = false;
 
             //Camera.controls.moveSpeed = padding * 10;
             //App.animatedShaderMaterial.size = padding;

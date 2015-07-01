@@ -4,6 +4,7 @@
 
 Camera = {};
 Camera.defaultSpeed = 0.1;
+Camera.animationVector = null;
 
 /**
  * @author arnaud steinmetz <s.arnaud67@hotmail.fr>
@@ -50,6 +51,10 @@ function setupcamera(){
     useOrbitControls();
 
     //debug for zoom test
-    //useFPSControls();
+    useFPSControls();
     Camera.controls.reset();
+}
+
+function animateCamera(t){
+
 }

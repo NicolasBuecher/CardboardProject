@@ -60,17 +60,23 @@ function disableMouseEventHandling(){
 function onKeyboardDown(event){
     switch(event.keyCode){
         case 80 ://p
-            if(App.PLAY){
-                App.PLAY = false;
-                App.updated = false;
-                enableMouseEventHandling();
-                //timedChunckComputePositions();
-                computePositions();
-            }else{
-                App.PLAY = true;
-                disableMouseEventHandling();
-                setAnimationShaderMode();
+            if(App.ANIMATION) {
+                if (App.PLAY) {
+                    App.PLAY = false;
+                    App.updated = false;
+                    enableMouseEventHandling();
+                    //timedChunckComputePositions();
+                    computePositions();
+                } else {
+                    App.PLAY = true;
+                    disableMouseEventHandling();
+                    setAnimationShaderMode();
+                }
             }
+            break;
+        case 27: // Echap
+            document.getElementById('blocker').style.display = 'initial';
+            App.controlsEnabled = false;
             break;
         default:
             break;
@@ -89,7 +95,7 @@ function onWindowResize() {
     Camera.camera.updateProjectionMatrix();
 
     App.renderer.setSize( App.width, App.height );
-    App.colorPickingRenderer.setSize(App.width, App.height);
+    //App.colorPickingRenderer.setSize(App.width, App.height);
 
 }
 
