@@ -250,7 +250,7 @@ function init()
     renderer = new THREE.WebGLRenderer();                   // Renderer de type WebGLRenderer
     renderer.alpha = 1;                                     // Opaque
     renderer.antialias = true;                              // Anticrénelage activé
-    //renderer.setPixelRatio( window.devicePixelRatio );      // Initialisation du ratio
+    renderer.setPixelRatio( window.devicePixelRatio );      // Initialisation du ratio
     renderer.setClearColor( 0xffffff );                     // Couleur par défaut blanche
 
     /* Initialisation de la zone de rendu */
@@ -314,8 +314,8 @@ function resize()
 
     /* Récupération des dimensions du container */
 
-    var width = container.offsetWidth;
-    var height = container.offsetHeight;
+    var width = window.innerWidth;
+    var height = window.innerWidth;
 
     /* Mise à jour du ratio de la caméra */
 
