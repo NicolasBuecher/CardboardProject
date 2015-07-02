@@ -303,7 +303,7 @@ function init()
 
     /* Initialisation de la taille de la fenêtre de rendu */
 
-    setTimeout(resize, 1);
+    //setTimeout(resize, 1);
 
 }
 
