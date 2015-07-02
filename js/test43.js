@@ -314,8 +314,8 @@ function resize()
 
     /* Récupération des dimensions du container */
 
-    var width = window.innerWidth;
-    var height = window.innerWidth;
+    var width = container.offsetWidth;
+    var height = container.offsetHeight;
 
     /* Mise à jour du ratio de la caméra */
 
