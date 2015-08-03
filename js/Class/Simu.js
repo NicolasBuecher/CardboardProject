@@ -90,7 +90,7 @@ SIMU.Simu.prototype.addScript = function(name, script, binary){
  * @description Setup the menu and the global camera
  */
 SIMU.Simu.prototype.setupSimu = function(){
-    if (SIMU.isMobile())
+    if (SIMU.isMobile.any())
     {
 
     }
@@ -101,6 +101,7 @@ SIMU.Simu.prototype.setupSimu = function(){
 
         this.menu.simpleView.addEventListener('click', this.switchToSingleview.bind(this), false);
         this.menu.multiView.addEventListener('click', this.switchToMultiview.bind(this), false);
+        this.menu.cardboard.addEventListener('click', this.switchToCardboardView.bind(this), false);
 
         this.globalCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.00001, 200);
         this.globalCamera.rotation.order  = 'ZYX';
@@ -108,6 +109,7 @@ SIMU.Simu.prototype.setupSimu = function(){
         this.globalCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
         this.globalCamera.controls = new THREE.FirstPersonControls(this.globalCamera, document.getElementById('container'));
+        //this.globalCamera.controls = new THREE.OrbitControls(this.globalCamera, document.getElementById('container'));
         this.globalCamera.controls.moveSpeed = 0.5;
         this.globalCamera.controls.enabled = false;
 
@@ -117,6 +119,48 @@ SIMU.Simu.prototype.setupSimu = function(){
         this.menu.displayMenu();
     }
 };
+
+SIMU.Simu.prototype.switchToCardboardView = function()
+{
+    this.menu.hideMenu();
+
+    document.getElementById('container').innerHTML = "";
+
+    this.globalCamera.aspect = window.innerWidth / window.innerHeight;
+    this.globalCamera.updateProjectionMatrix();
+
+    if(this.views.length == 0){
+        this.addView();
+    }
+
+    this.currentView = this.views[0];
+    this.currentView.domElement.id = 0;
+    document.getElementById('container').appendChild(this.currentView.domElement);
+    this.currentView.isShown = true;
+    this.currentView.resize(window.innerWidth, window.innerHeight, 0, 0);
+    this.currentView.setGlobalCamera(this.globalCamera);
+    //this.currentView.render();
+
+    var cardboard = new SIMU.Cardboard(this.currentView);
+    cardboard.setupView();
+    cardboard.render();
+
+    if(this.windowResizeEvent){
+        window.removeEventListener('resize', this.windowResizeEvent, false);
+    }
+    this.windowResizeEvent = this.onCardboardviewWindowResize.bind(this);
+    window.addEventListener( 'resize',this.windowResizeEvent, false );
+
+    this.showUI();
+    this.render();
+}
+
+SIMU.Simu.prototype.onCardboardviewWindowResize = function()
+{
+    this.globalCamera.aspect = window.innerWidth/window.innerHeight;
+    this.globalCamera.updateProjectionMatrix();
+    this.currentView.resize(window.innerWidth, window.innerHeight, 0, 0);
+}
 
 SIMU.Simu.prototype.addView = function(){
     var view = new SIMU.View();
@@ -157,6 +201,7 @@ SIMU.Simu.prototype.switchToSingleview = function(){
     if(this.views.length == 0){
         this.addView();
     }
+
     this.currentView = this.views[0];
     this.currentView.domElement.id = 0;
     document.getElementById('container').appendChild(this.currentView.domElement);

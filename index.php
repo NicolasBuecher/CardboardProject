@@ -1,1 +1,1 @@
-<?php include_once("indexCardboard.html"); ?>
+<?php include_once("index.html"); ?>
