@@ -96,7 +96,7 @@ SIMU.Cardboard.prototype.setup = function()
 
 
     // this.view.setGlobalCamera(globalCamera);
-    this.view.render();
+    this.render();
 /*
     if(this.windowResizeEvent){
         window.removeEventListener('resize', this.windowResizeEvent, false);
@@ -129,4 +129,15 @@ SIMU.Cardboard.prototype.setup = function()
     this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/starburst.jpg"));
     this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/flatstar.jpg"));
 */
+}
+
+SIMU.Cardboard.prototype.render = function()
+{
+    var that = this;
+    requestAnimationFrame(function () {
+        that.render();
+    });
+    
+    this.controls.update();
+    this.view.render();
 }
