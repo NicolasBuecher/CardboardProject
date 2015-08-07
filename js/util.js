@@ -1,24 +1,26 @@
 /**
- * Created by lespingal on 17/06/15.
+ * Created by Nicolas Buecher on 06/08/15.
  */
 
+/**
+ * @namespace
+ */
 var SIMU = SIMU || {};
 
-SIMU.Timer = function () {
-    this.time = Date.now();
-    this.currentTime = 0.0;
-};
-
-SIMU.Timer.prototype.start = function(){
-    this.currentTime = Date.now();
-};
-
-SIMU.Timer.prototype.stop = function(op){
-    diff = Date.now() - this.currentTime;
-    console.log("temps écoulé pour " +  op + " : " + diff + "ms");
-};
-
-var isMobile = {
+/**
+ * Contains all the functions necessary to know if the current device is a mobile device or not and which type of OS is used
+ *
+ * @name isMobile
+ * @global
+ *
+ * @property {function} Android     - Returns true if it's an android device, false otherwise
+ * @property {function} BlackBerry  - Returns true if it's a blackberry device, false otherwise
+ * @property {function} iOS         - Returns true if it's an iOS device, false otherwise
+ * @property {function} Opera       - Returns true if it's an opera device, false otherwise
+ * @property {function} Windows     - Returns true if it's a windows device, false otherwise
+ * @property {function} any         - Returns true if it's any of android, blackberry, iOS, opera or windows device, false otherwise
+ */
+SIMU.isMobile = {
     Android: function() {
         return navigator.userAgent.match(/Android/i);
     },
@@ -35,6 +37,6 @@ var isMobile = {
         return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
     },
     any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        return (SIMU.isMobile.Android() || SIMU.isMobile.BlackBerry() || SIMU.isMobile.iOS() || SIMU.isMobile.Opera() || SIMU.isMobile.Windows());
     }
 };

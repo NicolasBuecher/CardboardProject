@@ -1,143 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Data modeling</title>
-	<link rel="stylesheet" href="index.css">
-	<link rel="stylesheet" href="css/timeline.css">
-	<link rel="stylesheet" href="css/menu.css">
-	<link rel="stylesheet" href="css/data.css">
-	<script type="text/javascript" src="lib/stats.min.js"></script>
-	<script type="text/javascript" src="lib/dat.gui.min.js"></script>
 
-	<script type="text/javascript" src="lib/three.js"></script>
+<html>
 
-	<script type="text/javascript" src="lib/OrbitControls.js"></script>
-	<script type="text/javascript" src="lib/FirstPersonControls.js"></script>
+    <head lang="en">
 
-	<script type="text/javascript" src="lib/async.js"></script>
-	<script type="text/javascript" src="lib/screenfull.js"></script>
+        <meta charset="UTF-8">
+        <title>Cardboard Project</title>
 
-	<!-- Cardboard dependencies -->
-	<script type="text/javascript" src="lib/StereoEffect.js"></script>
-	<script type="text/javascript" src="lib/DeviceOrientationControls.js"></script>
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="css/index.css">
 
-</head>
-<body>
+        <!-- Dependencies -->
+        <script src="lib/three.min.js"></script>
+        <script src="lib/DeviceOrientationControls.js"></script>
+        <script src="lib/StereoEffect.js"></script>
 
-<div id="container">
+    </head>
 
-</div>
+    <body>
 
-<!-- Détection des couleurs par la caméra -->
+        <!-- Détection des couleurs par la caméra -->
+        <video id="color-detection-video" style="display: none;" muted autoplay></video>
+        <canvas id="color-detection-canvas" style="display:none;"></canvas>
 
-<video id="color-detection-video" style="display: none;" muted autoplay></video>
+        <!-- Canvas du rendu -->
+        <div id="container"></div>
 
-<canvas id="color-detection-canvas" style="display:none;"></canvas>
+    </body>
 
-<!-- Menu -->
-
-<div id="blocker">
-
-	<div id="instructions">
-
-		<span style="font-size:50px">Choose display type</span>
-		<br/>
-
-		<div id="simpleview" class="choices">
-			<span>Simple View</span>
-		</div>
-
-		<div id="multiview" class="choices">
-			<span>Multiview</span>
-		</div>
-
-		<div id="oculus" class="choices">
-			<span>Oculus Rift</span>
-		</div>
-
-		<div id="cardboard" class="choices">
-			<span>Google Cardboard</span>
-		</div>
-
-	</div>
-
-</div>
-
-<!-- Timeline : Curseur + liste de snapshots + bouton play/stop -->
-
-<ul id="timeline">
-
-	<div id="cursor" class="draggable">
-		<div id="cursor-head">
-			<div id="cursor-hair-top-left" class="cursor-hair"></div>
-			<div id="cursor-hair-top-right" class="cursor-hair"></div>
-			<div id="cursor-hair-bottom-left" class="cursor-hair"></div>
-			<div id="cursor-hair-bottom-right" class="cursor-hair"></div>
-		</div>
-	</div>
-
-	<div id="play-border">
-		<div id="play-button"></div>
-	</div>
-
-</ul>
-
-<button id="addSnap" style="position: absolute; top: 50%; width: 10%; left: 45%; display: none;">Add</button>
-
-<div id="data_manager">
-	<div id="loader">
-		<input type="file" accept="*" id="files" name="file" multiple style="display:none;"/>
-	</div>
-	<table id="data_table">
-		<thead>
-		<tr id="data_head">
-			<th></th>
-		<th><input id="add_column_button" type="image" alt="Add data" src="resources/icons/Add_icon_16.png"/></th>
-		</tr>
-		</thead>
-		<tr>
-			<td>
-				<input id="add_row_button" type="image" alt="Add data" src="resources/icons/Add_icon_16.png"/>
-			</td>
-			<td></td>
-		</tr>
-	</table>
-</div>
-
-
-<progress id="fileLoadingProgress" value="0" max="100"></progress>
-<div id="info_wrapper">
-	<div id="info">
-
-	</div>
-	<div id="info_intersected">
-
-	</div>
-	<div id="info_selected">
-
-	</div>
-</div>
-
-<div id="debugInfo">
-
-</div>
-
-<div id="colorPickingTexture"></div>
-
-</body>
-
-<script src="js/Class/Simu.js"></script>
-<script type="text/javascript" src="js/Class/util.js"></script>
-<script type="text/javascript" src="js/Class/Script.js"></script>
-<script type="text/javascript" src="js/Class/Shader.js"></script>
-<script src="js/Class/Snapshot.js"></script>
-<script src="js/Class/Data.js"></script>
-<script src="js/Class/RenderableData.js"></script>
-<script src="js/Class/View.js"></script>
-<script src="js/Class/menu.js"></script>
-<script src="js/Class/timeline.js"></script>
-<script src="js/Class/cardboard.js"></script>
-<script src="js/Class/app.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/cardboardView.js"></script>
+    <script src="js/cardboard.js"></script>
+    <script src="js/app.js"></script>
 
 </html>

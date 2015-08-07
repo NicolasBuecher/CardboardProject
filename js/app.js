@@ -1,51 +1,46 @@
 /**
- * Created by lespingal on 12/06/15.
+ * Created by Nicolas Buecher on 04/08/15.
  */
 
-var App = App || {};
+/**
+ * @namespace
+ */
+var SIMU = SIMU || {};
 
-App.FileType            = {
-    SKYBOT : 0,
-    BIN : 1,
-    STRING : 2
-};
-
-/* List of different types of display, useful to remember the current display */
-App.DisplayType = {
-    UNKNOWN : 0,
-    SIMPLEVIEW : 1,
-    MULTIVIEW : 2,
-    OCULUS : 3,
-    CARDBOARD : 4
-};
-
-App.RaycastingType = {
-    NONE : 0,
-    HOMEMADE : 1,
-    THREEJS : 2
-};
-
-App.RAYCASTINGTYPE = App.RaycastingType.HOMEMADE;
-
-/* Used to remember the current display */
-App.currentDisplay = App.DisplayType.UNKNOWN;
-
-/*Used to enable and disable controls out and in menu */
-App.controlsEnabled = true;
-
-App.type                = App.FileType.STRING;
-
-App.RAYCASTING          = true;//Enable raycasting for object picking
-App.CPUCALCUL           = false;//Disable position computing on CPU side rather than within the shader
-App.COLORPICKING        = false;//Disable color picking for object picking
-App.FOG                 = false;//Enable fog
-App.FRUSTUMCULLING      = false;
-App.PLAY                = false;//Disable animation mode
-App.ANIMATION           = false;
-App.CAMERAISFREE        = true;
-App.RAYCASTINGCULLING   = false;
-App.WIREFRAME           = true;
-
-App.nbIter              = 2;
-
-App.autoLoadData = false;
+// STEP 1 : Detect mobile devices
+if (SIMU.isMobile.any())
+{
+    // STEP 2 : Detect API compatibility
+    if (window.DeviceOrientationEvent)
+    {
+        // STEP 3 : Launch cardboard application
+        var cardboard = new SIMU.Cardboard();
+        cardboard.setup();
+    }
+    else
+    {
+        /*
+        The browsers that support the DeviceOrientation API are :
+            - Chrome 7+
+            - Firefox 6+
+            - Opera 15+
+            - IE 11+
+        In addition, the API is also supported by the browser of :
+            - Blackberry 10+
+            - Opera Mobile 12+
+            - Mobile Safari 4.2+
+            - Chrome 42+ on Android
+            - Firefox 39+ on Android
+            - Android Browser 3+
+            - IE Mobile 11+
+        Source : http://caniuse.com/#feat=deviceorientation
+         */
+        alert("DeviceOrientation API is not supported by this browser.\nTry to update your browser or use another browser.")
+        console.error("DeviceOrientation API is not supported on this device, the application will be aborted.");
+    }
+}
+else
+{
+    alert("No mobile device detected.\nYou need to use a mobile device to launch this application.")
+    console.error("No mobile device detected, the application will be aborted.");
+}
