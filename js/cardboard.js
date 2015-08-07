@@ -84,7 +84,7 @@ SIMU.Cardboard.prototype.setup = function()
         that.controls.connect();                                                             // Initialisation
         that.controls.update();                                                              // Mise à jour
 
-        this.view.domElement.addEventListener('click', this.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
+        that.view.domElement.addEventListener('click', this.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
 
@@ -144,9 +144,11 @@ SIMU.Cardboard.prototype.render = function()
 
 SIMU.Cardboard.prototype.fullscreen = function()
 {
+    //alert("ALERTE AU GOGOLE LES ENFANTS");
     if (screenfull.enabled)
     {
         screenfull.request(document.body);
+        //alert("BINGO");
     }
     else
     {
