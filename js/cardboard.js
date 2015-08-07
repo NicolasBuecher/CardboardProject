@@ -89,14 +89,14 @@ SIMU.Cardboard.prototype.setup = function()
         window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
 
         // Step 6 : If all is good, render view
-        that.view.render();
+        that.render();
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, true);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 
 
     // this.view.setGlobalCamera(globalCamera);
-    this.render();
+    //this.render();
 /*
     if(this.windowResizeEvent){
         window.removeEventListener('resize', this.windowResizeEvent, false);
@@ -130,6 +130,7 @@ SIMU.Cardboard.prototype.setup = function()
     this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/flatstar.jpg"));
 */
 }
+
 
 SIMU.Cardboard.prototype.render = function()
 {

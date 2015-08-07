@@ -90,7 +90,12 @@ SIMU.CardboardView.prototype.resize = function()
 
 SIMU.CardboardView.prototype.render = function()
 {
-
+    /*
+    var that = this;
+    requestAnimationFrame(function () {
+        that.render();
+    });
+*/
     //this.animate();
 /*
     if (this.sceneParameters.frustumculling) {
