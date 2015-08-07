@@ -76,17 +76,14 @@ SIMU.Cardboard.prototype.setup = function()
     // Step 5 : Enable head tracking controls
     function setOrientationControls(e) {
 
-        alert("HERE WE ARE !");
         if (!e.alpha) {
             return;
-            alert("Ohoh..");
         }
 
         that.controls = new THREE.DeviceOrientationControls(that.view.camera,  true);                   // Contrôles par orientation du mobile
         that.controls.connect();                                                             // Initialisation
         that.controls.update();                                                              // Mise à jour
 
-        alert("Goedemorgen !");
         //this.view.domElement.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement

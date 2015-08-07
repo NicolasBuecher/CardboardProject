@@ -90,6 +90,7 @@ SIMU.CardboardView.prototype.resize = function()
 
 SIMU.CardboardView.prototype.render = function()
 {
+    alert("Goedemorgen !");
     var that = this;
     requestAnimationFrame(function () {
         that.render();
