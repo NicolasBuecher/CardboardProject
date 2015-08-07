@@ -144,11 +144,10 @@ SIMU.Cardboard.prototype.render = function()
 
 SIMU.Cardboard.prototype.fullscreen = function()
 {
-    alert("ALERTE AU GOGOLE LES ENFANTS");
     if (screenfull.enabled)
     {
         screenfull.request(document.body);
-        alert("BINGO");
+        this.view.resize();
     }
     else
     {
