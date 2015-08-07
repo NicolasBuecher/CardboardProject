@@ -84,7 +84,7 @@ SIMU.Cardboard.prototype.setup = function()
         that.controls.connect();                                                             // Initialisation
         that.controls.update();                                                              // Mise à jour
 
-        this.view.domElement.addEventListener('click', fullscreen, false);                           // Passage en mode plein écran pour les mobiles
+        this.view.domElement.addEventListener('click', this.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
         window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
 
