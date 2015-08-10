@@ -88,12 +88,13 @@ SIMU.Cardboard.prototype.setup = function()
 
         window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
-        // Step 6 : If all is good, render view
-        that.render();
+
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
     //this.render();
+    // Step 6 : If all is good, render view
+    that.render();
 
     // this.view.setGlobalCamera(globalCamera);
     //this.render();
