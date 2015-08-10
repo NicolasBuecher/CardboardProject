@@ -21,20 +21,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cardboard.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cardboard.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/cardboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.483871">
-              <caret line="140" column="6" selection-start-line="140" selection-start-column="6" selection-end-line="140" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.39349112">
+              <caret line="72" column="23" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cardboardView.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cardboardView.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/cardboardView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11143984">
+            <state vertical-scroll-proportion="-3.6451614">
               <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
               <folding />
             </state>
@@ -93,8 +93,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/util.js" />
         <option value="$PROJECT_DIR$/js/app.js" />
-        <option value="$PROJECT_DIR$/js/cardboard.js" />
         <option value="$PROJECT_DIR$/js/cardboardView.js" />
+        <option value="$PROJECT_DIR$/js/cardboard.js" />
       </list>
     </option>
   </component>
@@ -459,18 +459,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/cardboard.js">
+    <entry file="file://$PROJECT_DIR$/js/cardboardView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.483871">
-          <caret line="140" column="6" selection-start-line="140" selection-start-column="6" selection-end-line="140" selection-end-column="6" />
+        <state vertical-scroll-proportion="-3.6451614">
+          <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/cardboardView.js">
+    <entry file="file://$PROJECT_DIR$/js/cardboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11143984">
-          <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.39349112">
+          <caret line="72" column="23" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
           <folding />
         </state>
       </provider>

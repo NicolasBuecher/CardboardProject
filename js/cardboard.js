@@ -70,6 +70,7 @@ SIMU.Cardboard.prototype.setup = function()
 
     this.container.appendChild(this.view.domElement);
     this.view.resize();
+    this.view.render();
 
     var that = this;
     // Step 5 : Enable head tracking controls
