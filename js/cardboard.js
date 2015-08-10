@@ -94,9 +94,6 @@ SIMU.Cardboard.prototype.setup = function()
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
-
-    this.view.domElement.addEventListener('click', this.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
-
 }
 
 
@@ -113,12 +110,9 @@ SIMU.Cardboard.prototype.render = function()
 
 SIMU.Cardboard.prototype.fullscreen = function()
 {
-    alert("On y est ?");
-    alert(screenfull.enabled);
     if (screenfull.enabled)
     {
         screenfull.request(document.body);
-        alert("BORDEL");
     }
     else
     {
