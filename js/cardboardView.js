@@ -105,6 +105,8 @@ SIMU.CardboardView.prototype.render = function()
     }*/
 alert("9");
     //this.scene.setDeltaT(this.clock.elapsedTime);
+    this.camera.aspect = this.width / this.height;
+    this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene.itself, this.camera);
 }
 
