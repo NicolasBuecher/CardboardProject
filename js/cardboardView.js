@@ -74,6 +74,8 @@ SIMU.CardboardView.prototype.setup = function()
     this.camera = this.scene.camera;
     //this.camera.useDeviceOrientationControls(this);
 
+    window.addEventListener('resize', this.resize.bind(this), false);
+    
     this.resize();
 }
 
