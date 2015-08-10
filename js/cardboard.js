@@ -75,6 +75,8 @@ SIMU.Cardboard.prototype.setup = function()
     // Step 5 : Enable head tracking controls
     function setOrientationControls(e) {
 
+        alert(this);
+        alert(that);
         if (!e.alpha) {
             return;
         }
@@ -90,7 +92,7 @@ SIMU.Cardboard.prototype.setup = function()
         // Step 6 : If all is good, render view
         that.render();
     }
-
+    alert(this);
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
     //this.render();
 
@@ -133,6 +135,7 @@ SIMU.Cardboard.prototype.setup = function()
 
 SIMU.Cardboard.prototype.render = function()
 {
+    alert(this);
     var that = this;
     requestAnimationFrame(function () {
         that.render();
