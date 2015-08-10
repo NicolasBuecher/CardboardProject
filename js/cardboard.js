@@ -75,8 +75,8 @@ SIMU.Cardboard.prototype.setup = function()
     // Step 5 : Enable head tracking controls
     function setOrientationControls(e) {
 
-        alert(this);
-        alert(that);
+        alert("2");
+
         if (!e.alpha) {
             return;
         }
@@ -87,12 +87,12 @@ SIMU.Cardboard.prototype.setup = function()
 
         //that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
-        window.removeEventListener('deviceorientation', setOrientationControls, true);  // Suppression de l'événement
+        window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
         // Step 6 : If all is good, render view
         that.render();
     }
-    alert(this);
+    alert("1");
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
     //this.render();
 
@@ -135,7 +135,7 @@ SIMU.Cardboard.prototype.setup = function()
 
 SIMU.Cardboard.prototype.render = function()
 {
-    alert(this);
+    alert("3");
     var that = this;
     requestAnimationFrame(function () {
         that.render();
