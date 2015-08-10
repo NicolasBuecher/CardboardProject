@@ -103,7 +103,9 @@ SIMU.CardboardView.prototype.render = function()
     }
 */
     //this.scene.setDeltaT(this.clock.elapsedTime);
-
+    alert("4");
+    alert(this);
+    
     this.renderer.render(this.scene.itself, this.camera);
 }
 
