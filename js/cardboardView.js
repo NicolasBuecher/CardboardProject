@@ -98,9 +98,9 @@ SIMU.CardboardView.prototype.render = function()
         that.render();
     });
 */
-    /*this.animate();
+    this.animate();
 
-    if (this.sceneParameters.frustumculling) {
+    /*if (this.sceneParameters.frustumculling) {
         this.scene.computeCulling(this.camera);
     }*/
 alert("9");
@@ -128,7 +128,7 @@ SIMU.CardboardView.prototype.animate = function()
             this.camera.isNotFree = false;
         }
     }
-*/
+*//*
     //TODO Update frustum only if camera has changed
     if (this.scene.parameters.frustumculling)
     {
@@ -137,7 +137,7 @@ SIMU.CardboardView.prototype.animate = function()
         this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld);
 
         this.camera.frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));
-    }
+    }*/
 };
 
 SIMU.CardboardView.prototype.getCanvas = function()

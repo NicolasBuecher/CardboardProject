@@ -92,7 +92,7 @@ SIMU.Cardboard.prototype.setup = function()
         that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
         alert("5");
-        window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
+        //window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
