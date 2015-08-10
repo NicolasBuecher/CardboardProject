@@ -79,22 +79,28 @@ SIMU.Cardboard.prototype.setup = function()
         if (!e.alpha) {
             return;
         }
-
+        alert("1");
         that.controls = new THREE.DeviceOrientationControls(that.view.camera,  true);                   // Contrôles par orientation du mobile
+        alert("2");
+
         that.controls.connect();                                                             // Initialisation
+        alert("3");
+
         that.controls.update();                                                              // Mise à jour
 
+        alert("4");
         that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
+        alert("5");
         window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
-
+        alert("6");
+        // Step 6 : If all is good, render view
+        that.render();
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
     //this.render();
-    // Step 6 : If all is good, render view
-    that.render();
 
     // this.view.setGlobalCamera(globalCamera);
     //this.render();
@@ -135,11 +141,13 @@ SIMU.Cardboard.prototype.setup = function()
 
 SIMU.Cardboard.prototype.render = function()
 {
+    alert("7");
     var that = this;
     requestAnimationFrame(function () {
         that.render();
     });
 
+    alert("8");
     //this.controls.update();
     this.view.render();
 }
