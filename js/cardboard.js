@@ -96,7 +96,7 @@ SIMU.Cardboard.prototype.setup = function()
 
         alert("6");
         // Step 6 : If all is good, render view
-        that.render();
+        that.render().bind(that);
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible

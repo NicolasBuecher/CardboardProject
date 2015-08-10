@@ -103,7 +103,7 @@ SIMU.CardboardView.prototype.render = function()
     if (this.sceneParameters.frustumculling) {
         this.scene.computeCulling(this.camera);
     }*/
-
+alert("9");
     //this.scene.setDeltaT(this.clock.elapsedTime);
     this.renderer.render(this.scene.itself, this.camera);
 }
