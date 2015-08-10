@@ -85,7 +85,7 @@ SIMU.Cardboard.prototype.setup = function()
         that.controls.connect();                                                             // Initialisation
         that.controls.update();                                                              // Mise à jour
 
-        that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
+        that.view.domElement.addEventListener('click', that.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
         window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
@@ -95,7 +95,7 @@ SIMU.Cardboard.prototype.setup = function()
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 
-    this.view.domElement.addEventListener('click', this.fullscreen.bind(this), false);                           // Passage en mode plein écran pour les mobiles
+    this.view.domElement.addEventListener('click', this.fullscreen, false);                           // Passage en mode plein écran pour les mobiles
 
 }
 
@@ -113,6 +113,8 @@ SIMU.Cardboard.prototype.render = function()
 
 SIMU.Cardboard.prototype.fullscreen = function()
 {
+    alert("On y est ?");
+    alert(screenfull.enabled);
     if (screenfull.enabled)
     {
         screenfull.request(document.body);
