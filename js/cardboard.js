@@ -69,8 +69,8 @@ SIMU.Cardboard.prototype.setup = function()
     this.view.scene.textures = this.textures;
 
     this.container.appendChild(this.view.domElement);
-    this.view.render();
     this.view.resize();
+    this.view.render();
 
     var that = this;
 
