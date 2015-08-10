@@ -146,7 +146,7 @@ SIMU.Cardboard.prototype.render = function()
     });
 
     alert("8");
-    //this.controls.update();
+    this.controls.update();
     this.view.render();
 }
 
