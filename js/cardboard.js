@@ -103,7 +103,7 @@ SIMU.Cardboard.prototype.render = function()
     requestAnimationFrame(function () {
         that.render();
     });
-
+alert("PB");
     this.controls.update();
     this.view.render();
 }
