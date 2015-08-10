@@ -115,6 +115,7 @@ SIMU.Cardboard.prototype.fullscreen = function()
     {
         screenfull.request(document.body);
         this.view.resize();
+        alert("BORDEL");
     }
     else
     {
