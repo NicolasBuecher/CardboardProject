@@ -96,16 +96,13 @@ SIMU.CardboardView.prototype.render = function()
         that.render();
     });
 */
-    //this.animate();
+    this.animate();
 /*
     if (this.sceneParameters.frustumculling) {
         this.scene.computeCulling(this.camera);
     }
 */
     //this.scene.setDeltaT(this.clock.elapsedTime);
-    alert("4");
-    alert(this);
-    
     this.renderer.render(this.scene.itself, this.camera);
 }
 
