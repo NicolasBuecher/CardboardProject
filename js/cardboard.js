@@ -87,7 +87,7 @@ SIMU.Cardboard.prototype.setup = function()
 
         //that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
-        //window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
+        window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
         // Step 6 : If all is good, render view
         that.render();
