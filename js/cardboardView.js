@@ -73,7 +73,7 @@ SIMU.CardboardView.prototype.setup = function()
 
     this.camera = this.scene.camera;
 
-    window.addEventListener('resize', this.resize, false);
+    window.addEventListener('resize', this.resize.bind(this), false);
 }
 
 SIMU.CardboardView.prototype.resize = function()
