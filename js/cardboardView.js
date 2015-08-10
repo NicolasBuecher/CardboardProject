@@ -75,7 +75,7 @@ SIMU.CardboardView.prototype.setup = function()
     //this.camera.useDeviceOrientationControls(this);
 
     window.addEventListener('resize', this.resize.bind(this), false);
-    
+
     this.resize();
 }
 
@@ -98,13 +98,13 @@ SIMU.CardboardView.prototype.render = function()
         that.render();
     });
 */
-    this.animate();
+    /*this.animate();
 
     if (this.sceneParameters.frustumculling) {
         this.scene.computeCulling(this.camera);
-    }
+    }*/
 
-    this.scene.setDeltaT(this.clock.elapsedTime);
+    //this.scene.setDeltaT(this.clock.elapsedTime);
     this.renderer.render(this.scene.itself, this.camera);
 }
 

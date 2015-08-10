@@ -83,7 +83,7 @@ SIMU.Cardboard.prototype.setup = function()
         that.controls.connect();                                                             // Initialisation
         that.controls.update();                                                              // Mise à jour
 
-        //that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
+        that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
         window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
 
@@ -138,7 +138,7 @@ SIMU.Cardboard.prototype.render = function()
         that.render();
     });
 
-    this.controls.update();
+    //this.controls.update();
     this.view.render();
 }
 
