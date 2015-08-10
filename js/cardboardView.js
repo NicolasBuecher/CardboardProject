@@ -72,11 +72,8 @@ SIMU.CardboardView.prototype.setup = function()
     this.renderer.setSize(this.width, this.height);
 
     this.camera = this.scene.camera;
-    //this.camera.useDeviceOrientationControls(this);
 
-    window.addEventListener('resize', this.resize.bind(this), false);
-
-    this.resize();
+    window.addEventListener('resize', this.resize, false);
 }
 
 SIMU.CardboardView.prototype.resize = function()
@@ -92,57 +89,5 @@ SIMU.CardboardView.prototype.resize = function()
 
 SIMU.CardboardView.prototype.render = function()
 {
-    /*
-    var that = this;
-    requestAnimationFrame(function () {
-        that.render();
-    });
-*/
-    //this.animate();
-
-    /*if (this.sceneParameters.frustumculling) {
-        this.scene.computeCulling(this.camera);
-    }*/
-alert("9");
-    //this.scene.setDeltaT(this.clock.elapsedTime);
-    this.camera.aspect = this.width / this.height;
-    this.camera.updateProjectionMatrix();
     this.renderer.render(this.scene.itself, this.camera);
-}
-
-SIMU.CardboardView.prototype.animate = function()
-{
-//    if (!this.camera.isNotFree)
-//    {
-        this.camera.controls.update(this.clock.getDelta());
-/*    }
-    else
-    {
-        this.time += 1/60;
-        if (this.time < 1.0)
-        {
-            this.camera.position.set(this.origin.x + this.time * this.objectif.x,
-                this.origin.y + this.time * this.objectif.y,
-                this.origin.z + this.time * this.objectif.z);
-        }
-        else
-        {
-            this.camera.isNotFree = false;
-        }
-    }
-*//*
-    //TODO Update frustum only if camera has changed
-    if (this.scene.parameters.frustumculling)
-    {
-        this.camera.updateMatrix();
-        this.camera.updateMatrixWorld();
-        this.camera.matrixWorldInverse.getInverse(this.camera.matrixWorld);
-
-        this.camera.frustum.setFromMatrix(new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));
-    }*/
-};
-
-SIMU.CardboardView.prototype.getCanvas = function()
-{
-    return this.renderer.domElement;
 }

@@ -43,18 +43,3 @@ SIMU.Scene.prototype.setup = function()
     this.camera.lookAt( new THREE.Vector3(0, 0, 0) );
     this.camera.frustum = new THREE.Frustum();
 }
-/*
-SIMU.Scene.prototype.computeCulling = function(camera)
-{
-    for (var i = 0; i < this.renderableDatas.length;i++)
-    {
-        if (this.renderableDatas[i].isActive && this.renderableDatas[i].isReady)
-        {
-            if (this.parameters.frustumculling)
-            {
-                this.renderableDatas[i].computeCulling(camera);
-            }
-        }
-    }
-};
-*/

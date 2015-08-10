@@ -69,83 +69,41 @@ SIMU.Cardboard.prototype.setup = function()
     this.view.scene.textures = this.textures;
 
     this.container.appendChild(this.view.domElement);
-    this.view.resize();
     this.view.render();
+    this.view.resize();
 
     var that = this;
+
     // Step 5 : Enable head tracking controls
     function setOrientationControls(e) {
 
         if (!e.alpha) {
             return;
         }
-        alert("1");
+
         that.controls = new THREE.DeviceOrientationControls(that.view.camera,  true);                   // Contrôles par orientation du mobile
-        alert("2");
-
         that.controls.connect();                                                             // Initialisation
-        alert("3");
-
         that.controls.update();                                                              // Mise à jour
 
-        alert("4");
         that.view.domElement.addEventListener('click', that.fullscreen.bind(that), false);                           // Passage en mode plein écran pour les mobiles
 
-        alert("5");
-        //window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
+        window.removeEventListener('deviceorientation', setOrientationControls, false);  // Suppression de l'événement
+
+        // Step 6 : If all is good, render view
+        that.render();
     }
 
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
-    //this.render();
-    alert("6");
-    // Step 6 : If all is good, render view
-    that.render();
-    // this.view.setGlobalCamera(globalCamera);
-    //this.render();
-/*
-    if(this.windowResizeEvent){
-        window.removeEventListener('resize', this.windowResizeEvent, false);
-    }
-    this.windowResizeEvent = this.onWindowResize.bind(this);
-    window.addEventListener( 'resize',this.windowResizeEvent, false );
-*/
-    //this.animate();
-
-/*
-    var renderableData = new SIMU.RenderableData();
-    renderableData.setData(this.data);
-    this.scene.addRenderableData(renderableData);
-*/
-
-/*
-    /* Create camera  // Useless ?
-    this.camera = new THREE.PerspectiveCamera(75, 1.0, 0.00001, 200);
-    // this.camera.rotation.order  = 'ZYX'; // Needed for FPS Controls
-    this.camera.position.set(0.5, 0.5, 0.5); // Centered in the scene
-    this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Look at the origin
-
-    this.camera.frustum = new THREE.Frustum(); // ??
-
-    this.view = new SIMU.CardboardView();
-
-    /* Load textures
-    this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/spark.png"));
-    this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/star.gif"));
-    this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/starburst.jpg"));
-    this.textures.push(THREE.ImageUtils.loadTexture("resources/textures/flatstar.jpg"));
-*/
 }
 
 
 SIMU.Cardboard.prototype.render = function()
 {
-    alert("7");
     var that = this;
     requestAnimationFrame(function () {
         that.render();
     });
 
-    alert("8");
     this.controls.update();
     this.view.render();
 }
