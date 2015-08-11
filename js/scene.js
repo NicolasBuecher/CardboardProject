@@ -3,18 +3,21 @@
  */
 
 /**
- * @namespace
+ * @namespace SIMU
  */
 var SIMU = SIMU || {};
 
 /**
- * Represents the scene displayed by the view
+ * @author Nicolas Buecher
+ * @date 06/08/15
+ * @version 1.0
  *
- * @name Scene
- * @class
+ * @description Represents the scene displayed by the view
  *
- * @property    {THREE.Scene}               itself      - The Three.JS Scene object
- * @property    {THREE.PerspectiveCamera}   camera      - The Three.JS PerspectiveCamera object
+ * @class Scene
+ *
+ * @property    {THREE.Scene}           itself      - The Three.JS Scene object
+ * @property    {PerspectiveCamera}     camera      - The Three.JS PerspectiveCamera object to see the scene
  */
 SIMU.Scene = function()
 {

@@ -2,6 +2,9 @@
  * Created by Nicolas Buecher on 04/08/15.
  */
 
+/**
+ * @namespace SIMU
+ */
 var SIMU = SIMU || {};
 
 /**
@@ -9,13 +12,13 @@ var SIMU = SIMU || {};
  * @date 04/08/15
  * @version 1.0
  *
- * Represents the whole simulation
+ * @description Represents the whole simulation
  *
- * @name Cardboard
- * @class
+ * @class Cardboard
  *
- * @property
- * @property
+ * @property    {HTML}                      container   - HTML element of the container of the canvas
+ * @property    {CardboardView}             view        - Object that manages the rendering of the scene
+ * @property    {DeviceOrientationControls} controls    - Object that manages the controls by device orientation
  */
 SIMU.Cardboard = function()
 {

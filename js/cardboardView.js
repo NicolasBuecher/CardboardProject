@@ -8,13 +8,20 @@
 var SIMU = SIMU || {};
 
 /**
- * Represents a cardboard view (with stereo effect)
+ * @author Nicolas Buecher
+ * @date 06/08/15
+ * @version 1.0
  *
- * @name CardboardView
- * @class
+ * @description Represents a cardboard view (with stereo effect)
  *
- * @property    {HTML}      domElement      : HTML element of the view
- * @property    {Scene}     scene           : The scene displayed by the view
+ * @class CardboardView
+ *
+ * @property    {HTML}              domElement      - HTML element of the view
+ * @property    {Scene}             scene           - The scene displayed by the view
+ * @property    {StereoEffect}      renderer        - Renderer for a cardboard view based on a webGL renderer
+ * @property    {PerspectiveCamera} camera          - Camera to see the scene
+ * @property    {number}            width           - Width of the canvas
+ * @property    {number}            height          - Height of the canvas
  */
 SIMU.CardboardView = function()
 {
