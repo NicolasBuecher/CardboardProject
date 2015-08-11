@@ -115,7 +115,7 @@ SIMU.Cardboard.prototype.fullscreen = function()
 {
     if (screenfull.enabled)
     {
-        screenfull.request(document.body);
+        screenfull.toggle(document.body);
     }
     else
     {
