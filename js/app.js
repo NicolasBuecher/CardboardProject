@@ -17,6 +17,7 @@ if (SIMU.isMobile.any())
         var cardboard = new SIMU.Cardboard();
         cardboard.setup();
 
+        // STEP 6 : Warn about big amount of data downloaded and ask for permission
         var response = window.confirm("Warning !\n" +
             "To work, this application needs to download  an average of 200Mo of data or more.\n" +
             "Be sure to have a Wi-Fi connexion before continuing.\n" +
@@ -24,9 +25,12 @@ if (SIMU.isMobile.any())
 
         if (response)
         {
-            // Chargement des données
+            // STEP 7 : Load data
             alert("Ready ? Put your Google Cardboard on your nose now and enjoy !\n" +
                 "(Tap the screen to go into fullscreen mode)");
+
+            // Step 6 : If all is good, render view
+            cardboard.render();
         }
         else
         {
