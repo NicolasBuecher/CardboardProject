@@ -36,11 +36,11 @@ if (SIMU.isMobile.any())
 
             function onLoadEnd(err, results)
             {
+                alert("Coucou !");
                 dataManager.addSnapshot(results, onBuffersReady);
 
                 function onBuffersReady(id)
                 {
-                    alert("Coucou !");
                     cardboard.addData(dataManager.datas[id]);
                 }
             }
