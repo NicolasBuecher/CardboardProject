@@ -116,7 +116,6 @@ SIMU.RenderableData.prototype.setData = function(data)
 
 SIMU.RenderableData.prototype.resetData = function()
 {
-    alert("OHEEEE");
     if(this.data.isReady)
     {
         //Clear the memory

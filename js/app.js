@@ -28,8 +28,8 @@ if (SIMU.isMobile.any())
             // STEP 7 : Load data
             var dataFileReader = new SIMU.DataFileReader(SIMU.files.darkMatterStart(), SIMU.scripts.darkMatter);
             dataFileReader.loadBinaryFiles(onLoadEnd);
-            dataFileReader.setNewFiles(SIMU.files.darkMatterEnd());
-            dataFileReader.loadBinaryFiles(onLoadEnd);
+            //dataFileReader.setNewFiles(SIMU.files.darkMatterEnd());
+            //dataFileReader.loadBinaryFiles(onLoadEnd);
 
             // STEP 8 : Apply data
             var dataManager = new SIMU.DataManager();
@@ -40,6 +40,7 @@ if (SIMU.isMobile.any())
 
                 function onBuffersReady(id)
                 {
+                    alert("Coucou !");
                     cardboard.addData(dataManager.datas[id]);
                 }
             }
