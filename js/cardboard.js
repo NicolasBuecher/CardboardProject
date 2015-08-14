@@ -96,6 +96,12 @@ SIMU.Cardboard.prototype.setup = function()
     window.addEventListener('deviceorientation', setOrientationControls, false);         // Mise en place des contrôles pour mobile si détection de mobile compatible
 }
 
+SIMU.Cardboard.prototype.addData = function(data)
+{
+    this.view.addData(data);
+    this.view.activateData();
+    this.view.render();
+}
 
 SIMU.Cardboard.prototype.render = function()
 {
@@ -104,7 +110,7 @@ SIMU.Cardboard.prototype.render = function()
         that.render();
     });
 
-    this.controls.update();
+    //this.controls.update();
     this.view.render();
 }
 

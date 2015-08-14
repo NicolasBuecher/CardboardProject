@@ -21,9 +21,27 @@ var SIMU = SIMU || {};
  */
 SIMU.Scene = function()
 {
-    this.itself         = null;
-    this.camera         = null;
-    this.textures       = [];
+    this.itself             = null;
+    this.camera             = null;
+    this.textures           = [];
+
+    this.renderableDatas    = [];
+
+    this.parameters                 = {
+        t                           : 0,
+        deltaT                     : 0,
+        active                      : false,
+        pointSize                   : 0.5,
+        fog                         : false,
+        globalCamera                  : false,
+        shaderType                  : SIMU.ShaderType.STATIC,
+        color                       : [ 255, 255, 255],
+        idInfo                      : -1,
+        idTexture                   : -1,
+        idBlending                  : -1,
+        frustumCulling              : true,
+        levelOfDetail               : 4
+    };
 }
 
 /**
@@ -46,3 +64,39 @@ SIMU.Scene.prototype.setup = function()
     this.camera.lookAt( new THREE.Vector3(0, 0, 0) );
     this.camera.frustum = new THREE.Frustum();
 }
+
+SIMU.Scene.prototype.addRenderableData = function(data)
+{
+    this.currentRenderableDataId    = this.renderableDatas.length;
+    this.renderableDatas.push(data);
+}
+
+SIMU.Scene.prototype.activateCurrentData = function()
+{
+    var currentRenderableData = this.renderableDatas[this.currentRenderableDataId];
+    currentRenderableData.resetData();
+    this.enableCurrentDataShaderMode();
+    currentRenderableData.isActive = true;
+    this.itself.add(currentRenderableData.pointCloud);
+};
+
+SIMU.Scene.prototype.enableCurrentDataShaderMode = function()
+{
+    var currentRenderableData = this.renderableDatas[this.currentRenderableDataId];
+    switch(this.parameters.shaderType){
+        case SIMU.ShaderType.STATIC :
+            currentRenderableData.enableStaticShaderMode();
+            break;
+        case SIMU.ShaderType.ANIMATED :
+            currentRenderableData.enableAnimatedShaderMode();
+            break;
+        case SIMU.ShaderType.PARAMETRICSTATIC :
+            currentRenderableData.enableStaticParametricShaderMode();
+            break;
+        case SIMU.ShaderType.PARAMETRICANIMATED :
+            currentRenderableData.enableAnimatedParametricShaderMode();
+            break;
+        default:
+            break;
+    }
+};

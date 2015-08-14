@@ -44,3 +44,81 @@ SIMU.isMobile = {
         return (SIMU.isMobile.Android() || SIMU.isMobile.BlackBerry() || SIMU.isMobile.iOS() || SIMU.isMobile.Opera() || SIMU.isMobile.Windows());
     }
 };
+
+SIMU.files = {
+    darkMatterStart: function()
+    {
+        var result = [];
+        for (var i = 0; i < 128; i++)
+        {
+            if (i < 10)
+                result[i] = "data/Deparis_data_binaire/part_start/part.00000.p0000" + i;
+            else if (i < 100)
+                result[i] = "data/Deparis_data_binaire/part_start/part.00000.p000" + i;
+            else
+                result[i] = "data/Deparis_data_binaire/part_start/part.00000.p00" + i;
+        }
+        return result;
+    },
+    darkMatterEnd: function()
+    {
+        var result = [];
+        for (var i = 0; i < 128; i++)
+        {
+            if (i < 10)
+                result[i] = "data/Deparis_data_binaire/part_end/part.00010.p0000" + i;
+            else if (i < 100)
+                result[i] = "data/Deparis_data_binaire/part_end/part.00010.p000" + i;
+            else
+                result[i] = "data/Deparis_data_binaire/part_end/part.00010.p00" + i;
+        }
+        return result;
+    },
+    stars: function() {
+        return null;
+    }
+};
+
+SIMU.scripts = {
+    darkMatter: function(file) {
+        var array = new Float32Array(file);
+        var nbElements = (array.length-2)/10;
+        var position = new Float32Array(nbElements*3);
+        var speed = new Float32Array(nbElements*3);
+        var masse = new Float32Array(nbElements);
+        var epot = new Float32Array(nbElements);
+        var ekin = new Float32Array(nbElements);
+        var index = new Float32Array(nbElements);
+
+        for(var i = 0; i<nbElements;i++)
+        {
+            position[i * 3] = array[2 + i * 10];
+            position[i * 3 + 1] = array[3 + i * 10];
+            position[i * 3 + 2] = array[4 + i * 10];
+            speed[i * 3] = array[5 + i * 10];
+            speed[i * 3 + 1] = array[6 + i * 10];
+            speed[i * 3 + 2] = array[7 + i * 10];
+            index[i] = array[8 + i * 10];
+            masse[i] = array[9 + i * 10];
+            epot[i] = array[10 + i * 10];
+            ekin[i] = array[11 + i * 10];
+        }
+        return  [   {name : "index", value : index},
+                    {name : "position", value : position},
+                    //{name : "speed", value : speed},
+                    {name : "masse", value : masse},
+                    {name : "epot", value : epot},
+                    {name : "ekin", value : ekin}
+                ];
+    },
+    stars: function(file) {
+        return null;
+    }
+};
+
+SIMU.ShaderType = {
+    STATIC : 0,
+    ANIMATED : 1,
+    PARAMETRICSTATIC : 2,
+    PARAMETRICANIMATED : 3
+};

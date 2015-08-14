@@ -98,3 +98,15 @@ SIMU.CardboardView.prototype.render = function()
 {
     this.renderer.render(this.scene.itself, this.camera);
 }
+
+SIMU.CardboardView.prototype.addData = function(data)
+{
+    var renderableData = new SIMU.RenderableData();
+    renderableData.setData(data);
+    this.scene.addRenderableData(renderableData);
+}
+
+SIMU.CardboardView.prototype.activateData = function()
+{
+    this.scene.activateCurrentData();
+}

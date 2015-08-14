@@ -21,15 +21,33 @@ if (SIMU.isMobile.any())
         var response = window.confirm("Warning !\n" +
             "To work, this application needs to download  an average of 200Mo of data or more.\n" +
             "Be sure to have a Wi-Fi connexion before continuing.\n" +
-            "Click No if you don't want to go further.");
+            "Click 'Cancel' if you don't want to go further.");
 
         if (response)
         {
             // STEP 7 : Load data
+            var dataFileReader = new SIMU.DataFileReader(SIMU.files.darkMatterStart(), SIMU.scripts.darkMatter);
+            dataFileReader.loadBinaryFiles(onLoadEnd);
+            dataFileReader.setNewFiles(SIMU.files.darkMatterEnd());
+            dataFileReader.loadBinaryFiles(onLoadEnd);
+
+            // STEP 8 : Apply data
+            var dataManager = new SIMU.DataManager();
+
+            function onLoadEnd(err, results)
+            {
+                dataManager.addSnapshot(results, onBuffersReady);
+
+                function onBuffersReady(id)
+                {
+                    cardboard.addData(dataManager.datas[id]);
+                }
+            }
+
             alert("Ready ? Put your Google Cardboard on your nose now and enjoy !\n" +
                 "(Tap the screen to go into fullscreen mode)");
 
-            // Step 6 : If all is good, render view
+            // Step 9 : If all is OK, render view
             cardboard.render();
         }
         else
