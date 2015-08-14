@@ -49,7 +49,7 @@ SIMU.files = {
     darkMatterStart: function()
     {
         var result = [];
-        for (var i = 0; i < 128; i++)
+        for (var i = 0; i < 40; i++)
         {
             if (i < 10)
                 result[i] = "data/Deparis_data_binaire/part_start/part.00000.p0000" + i;
